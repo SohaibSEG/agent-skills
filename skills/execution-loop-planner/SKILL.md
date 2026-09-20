@@ -1,148 +1,73 @@
 ---
 name: execution-loop-planner
-description: Design and run recoverable implementation loops for multi-slice engineering goals. Use when work spans several commits, issues, pull requests, migrations, services, or context windows; when Codex must prevent scope drift and rabbit holes; or when the user asks for an execution loop, phased delivery, checkpoint management, stacked PR strategy, progress recovery, review delegation, or a plan that survives context compaction.
+description: Run implementation work that spans multiple slices or context windows while preserving the original goal. Use when the user explicitly asks for an execution loop, phased delivery, durable recovery state, or bounded multi-PR execution. Do not use for ordinary single-slice tasks.
 ---
 
 # Execution Loop Planner
 
-Build a loop that can stop, compact, rebase, or fail without losing the goal. Keep the plan tied to observable deliverables rather than a list of intentions.
+Optimize for delivery of the user's goal, not maintenance of the plan. The loop state is a recovery aid, never a deliverable.
 
-Read [references/templates.md](references/templates.md) when creating the master plan or checkpoint files.
+## Operating modes
 
-## 1. Establish the Contract
+- **Plan:** inspect and propose slices without changing code or external state.
+- **Run:** implement the next slice and validate it. Local edits are allowed only when the user's request authorizes implementation.
+- **Resume:** recover the original goal and exact next action from the compact state packet, then return to implementation.
+- **Close:** verify the original completion criteria and report remaining work.
 
-Inspect the repository, active branch, specifications, issue or PR state, and relevant local instructions before planning.
+Committing, pushing, updating issues or PRs, merging, deploying, and tracker writes require authorization from the user or the active task. They are not automatic parts of the loop.
 
-Write down:
+## Goal lock
 
-- One concrete goal.
-- Observable completion criteria.
-- Explicit non-goals and deferred decisions.
-- User constraints, including branch, merge, test, tooling, and deployment rules.
-- Source-of-truth artifacts in priority order.
-- Assumptions that would change the design if false.
+Before implementation, establish:
 
-Resolve contradictions before implementation. Treat the newest user direction as authoritative, then update the checkpoint so stale instructions do not return after compaction.
+- one observable goal;
+- a short list of completion criteria;
+- explicit non-goals and constraints;
+- a few vertical slices, each producing reviewable behavior;
+- the source-of-truth order when instructions conflict.
 
-## 2. Map the Current State
+The newest user direction wins. Do not reinterpret the goal merely to match completed work. If the requested outcome changes materially, close or abandon the old loop and initialize a new goal; use replan only to change the route to the same goal.
 
-Record facts, not expectations:
+## Use the state tool
 
-- Current base, branch, commit, worktree state, and migration heads.
-- Existing implementation and known gaps.
-- Upstream changes that affect the goal.
-- Available local services and required external dependencies.
-- Existing issues and PRs, including merged, open, draft, blocked, and PRed states.
-- Tests that exercise the touched behavior.
+For work likely to cross a context window, use `scripts/loop_state.py`. Read [references/tooling.md](references/tooling.md) only when initializing, recovering, or changing loop state.
 
-Do not encode coverage inventories, execution commands, issue state, or checkpoints in production code. Keep operational state outside the repository unless the user requests a tracked artifact.
+The tool stores compact state outside the repository and emits a small recovery packet. Do not create or maintain `GOAL.md`, `CHECKPOINT.md`, progress diaries, or parallel plan files unless the user explicitly asks for them.
 
-## 3. Cut Vertical Slices
+State-write budget:
 
-Each slice must produce a reviewable behavior or operational capability. Define:
+1. Initialize once.
+2. Finish once per completed slice.
+3. Write an exceptional transition only for a real blocker, resume, or approach-changing replan.
+4. Close once.
 
-1. Outcome.
-2. Files or ownership boundaries likely to change.
-3. Acceptance examples, including a negative case.
-4. Dependencies and migration impact.
-5. Targeted validation.
-6. Review point against the master goal and source specifications.
-7. Commit or PR boundary.
+Do not update state after every edit, command, test, finding, or message. If two consecutive actions only reorganize the loop instead of inspecting, implementing, or validating the product, stop administrating the loop and execute the recorded next action.
 
-Prefer a small number of meaningful slices over many thin PRs. Stack only when dependency order makes independent review useful. Consolidate related stacked PRs before final integration.
+## Execute the active slice
 
-Allow cleanup in touched paths when it removes duplication, clarifies ownership, or makes the requested behavior easier to verify. Timebox it and attach it to a slice outcome. Reject speculative frameworks, unrelated rewrites, and abstractions with no current caller.
+For each slice:
 
-## 4. Install Guardrails
+1. Read the compact packet only when orientation is needed.
+2. Inspect the smallest relevant source and tests.
+3. Implement the smallest coherent behavior that advances the active slice.
+4. Run focused validation, including a failure or boundary case when relevant.
+5. Compare the result with the original goal and current acceptance criteria.
+6. Mark the slice finished with concise behavior and validation evidence; the tool activates the next slice.
 
-Use these defaults unless the user overrides them:
+Use the repository diff, tests, commits, and service state as evidence. Do not duplicate their contents into checkpoint prose. Run the full relevant suite only at an integration boundary or when shared behavior changes.
 
-- Keep one code-writing agent at a time. Use subagents for independent review or testing, not simultaneous edits.
-- Do not auto-merge into the protected base.
-- Do not rewrite merged history. Start a new branch from the current base.
-- Keep internal progress out of code comments, documentation, and user-facing output.
-- Test behavior and contracts, not a hardcoded coverage inventory.
-- Prefer repository patterns and supported APIs. Record justified exceptions.
-- Stop and ask when a required local service is unavailable if repository instructions prohibit fallbacks.
-- Do not widen a slice merely because adjacent code is imperfect.
-- When upstream changes land, rebase once, inventory the affected behavior, and add missing integration work to the active slice.
+## Stay bounded
 
-Set a rabbit-hole budget. If an investigation does not change the active slice's design, correctness, or verification, record it as deferred and return to the slice.
+- Keep one code-writing agent at a time unless the user asks for parallel implementation.
+- Use subagents only for clearly independent review or testing when authorized.
+- Timebox investigations. If the answer will not change correctness, design, or validation of the active slice, defer it and continue.
+- Do not widen a slice because adjacent code is imperfect.
+- Stop and ask when required local services are unavailable and repository instructions prohibit fallbacks.
+- After two failed implementation attempts with the same symptom, diagnose before editing again.
+- After three unsuccessful iterations, replan or ask for user input; do not keep cycling.
 
-## 5. Persist Recovery State
+Specialist skills are optional routes, not mandatory ceremony. Use `$diagnosing-bugs` for a stubborn failure, `$pr-review-qa` for an explicitly requested final review, `$github-pr-template` when publishing an authorized PR, and `$handoff-session-context` only when the user wants a session handoff.
 
-For long loops, create a private workspace such as:
+## Completion
 
-```text
-/tmp/<repo>-<goal>/
-  GOAL.md
-  CHECKPOINT.md
-  FINDINGS.md
-  VALIDATION.md
-```
-
-Use a stable, easily rediscovered directory name. Tell the user the path once. Do not place these files in the repository or leak their contents into source comments.
-
-Update the checkpoint:
-
-- Before the first edit.
-- After each slice, commit, PR, rebase, or merge.
-- When a decision changes scope or architecture.
-- After a failed validation that changes the next step.
-- Immediately before expected context compaction.
-
-Keep `CHECKPOINT.md` short enough to reread in one command. Put raw logs and detailed investigation notes in the other files.
-
-## 6. Execute the Slice Loop
-
-For every slice:
-
-1. **Restore:** Read `GOAL.md` and `CHECKPOINT.md`. Verify branch, base, status, and newest user instruction.
-2. **Orient:** Read only the source and tests needed for the slice. Confirm the failure or missing behavior when practical.
-3. **Implement:** Make the smallest coherent change that owns the behavior. Decompose route or UI handlers when service ownership becomes clearer.
-4. **Validate:** Run focused static checks and behavior tests. Include one success case and one failure or boundary case.
-5. **Review:** Compare the result with the original goal, specifications, architecture constraints, and upstream behavior. Passing tests alone is insufficient.
-6. **Record:** Update completed work, findings, validation, deferrals, and the exact next action.
-7. **Publish:** Commit and push the coherent slice. Update its issue or PR with concrete behavior and honest test status.
-
-Do not repeat full validation after every edit. Run targeted checks during development and the full relevant suite at integration boundaries, before consolidating a stack, or when shared behavior changes.
-
-## 7. Use Review Agents Deliberately
-
-Use independent reviewers only when allowed and useful.
-
-- Give reviewers the specification, plan, and raw diff or branch.
-- Ask for behavior gaps, regressions, architecture divergence, and missing tests.
-- Do not give them the expected finding.
-- Keep reviewers read-only unless the user explicitly authorizes parallel edits.
-- After all slices, request one cross-slice review of the whole implementation rather than isolated migration-only reviews.
-
-Reconcile findings by severity and goal relevance. Fix critical and high findings first. Defer lower-value work explicitly.
-
-## 8. Manage Failures
-
-When CI or a migration stalls:
-
-1. Identify the exact step, revision, test, or request.
-2. Separate infrastructure failure from code failure.
-3. Explain the cause before editing when the user asks for diagnosis only.
-4. Fix the root behavior and add a regression test.
-5. Avoid fallback services or weaker validation without approval.
-6. Update the checkpoint with the failure and the evidence that closes it.
-
-Do not call a branch ready while required checks, migration compatibility, upstream feature coverage, or source-spec review remain open.
-
-## 9. Close the Loop
-
-Completion requires:
-
-- All acceptance criteria mapped to implemented behavior.
-- Deferred items listed with reasons and owners where known.
-- Migrations and deployment requirements stated.
-- Frontend and external call sites checked when contracts changed.
-- Targeted tests green and the agreed integration suite run.
-- PR stack consolidated into meaningful review units.
-- PR bodies updated with architecture, workflows, rollout impact, and QA instructions where relevant.
-- Checkpoint marked complete with final branch, commit, PR, and validation state.
-
-Report what is implemented, what remains, what is deferred, and what is waiting on another operator. Never substitute activity count for goal completion.
+Close only when every original completion criterion has current evidence, required validation has run, and blockers are absent. Report implemented behavior, validation, remaining work, and deferred items. Activity counts and polished checkpoint files do not establish completion.

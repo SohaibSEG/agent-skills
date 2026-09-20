@@ -1,4 +1,7 @@
 interface:
   display_name: "Execution Loop Planner"
-  short_description: "Plan durable, bounded implementation loops"
-  default_prompt: "Use $execution-loop-planner to design a recoverable implementation loop for this goal."
+  short_description: "Execute bounded loops without plan churn"
+  default_prompt: "Use $execution-loop-planner to execute this multi-slice goal while keeping recovery state compact."
+
+policy:
+  allow_implicit_invocation: false
