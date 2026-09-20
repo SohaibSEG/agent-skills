@@ -1,0 +1,57 @@
+#!/bin/sh
+set -eu
+
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+skill_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
+
+if [ -n "${CODEX_EXECUTION_LOOP_RUNTIME:-}" ]; then
+    runtime_dir=$CODEX_EXECUTION_LOOP_RUNTIME
+elif [ -n "${CODEX_HOME:-}" ]; then
+    runtime_dir=$CODEX_HOME/state/execution-loop-planner/runtime
+else
+    runtime_dir=$HOME/.codex/state/execution-loop-planner/runtime
+fi
+
+project_environment=$runtime_dir/.venv
+
+runtime_error() {
+    printf '%s\n' "Execution-loop runtime is not ready." >&2
+    printf '%s\n' "Ask the user before running: $script_dir/setup_runtime.sh" >&2
+    exit 2
+}
+
+if ! command -v uv >/dev/null 2>&1; then
+    printf '%s\n' "uv is required but was not found." >&2
+    printf '%s\n' "Ask the user to install uv from https://docs.astral.sh/uv/getting-started/installation/" >&2
+    exit 2
+fi
+
+if [ "${1:-}" = "doctor" ]; then
+    if [ ! -x "$project_environment/bin/python" ]; then
+        runtime_error
+    fi
+    if ! UV_PROJECT_ENVIRONMENT=$project_environment uv run \
+        --project "$skill_dir" \
+        --locked \
+        --offline \
+        --no-sync \
+        --managed-python \
+        python -c 'import sys; raise SystemExit(0 if sys.version_info[:2] == (3, 11) else 1)'
+    then
+        runtime_error
+    fi
+    printf '%s\n' "Execution-loop runtime is ready (uv-managed Python 3.11)."
+    exit 0
+fi
+
+if [ ! -x "$project_environment/bin/python" ]; then
+    runtime_error
+fi
+
+exec env "UV_PROJECT_ENVIRONMENT=$project_environment" uv run \
+    --project "$skill_dir" \
+    --locked \
+    --offline \
+    --no-sync \
+    --managed-python \
+    python "$script_dir/loop_state.py" "$@"

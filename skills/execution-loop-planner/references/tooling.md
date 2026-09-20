@@ -2,14 +2,33 @@
 
 Use this reference only when creating, resuming, or transitioning a durable execution loop.
 
-`loop_state.py` stores state under `~/.codex/state/execution-loops` by default. Set `CODEX_EXECUTION_LOOP_STATE` or pass `--root` to use another external directory. It never writes into the target repository.
+`loopctl` runs `loop_state.py` in an isolated uv environment and stores loop state under `~/.codex/state/execution-loops` by default. Set `CODEX_EXECUTION_LOOP_STATE` or pass `--root` to change the state location. Set `CODEX_EXECUTION_LOOP_RUNTIME` to change the isolated runtime location. Neither location is inside the target repository by default.
 
 Run commands from the target repository. Replace `<skill>` with the installed skill directory.
+
+## Runtime prerequisite
+
+Check without changing the machine:
+
+```bash
+<skill>/scripts/loopctl doctor
+```
+
+If the check fails, stop and tell the user what is missing. Do not install dependencies automatically.
+
+- If `uv` is missing, ask the user to install it from the official uv installation instructions.
+- If the isolated runtime is missing, explain that setup will verify or install uv-managed Python 3.11 and create a dedicated environment outside project repositories. Ask before running:
+
+```bash
+<skill>/scripts/setup_runtime.sh
+```
+
+The setup does not use, modify, or install packages into system Python. Normal `loopctl` commands are locked, offline, and cannot synchronize or install dependencies.
 
 ## Initialize once
 
 ```bash
-python3 <skill>/scripts/loop_state.py init \
+<skill>/scripts/loopctl init \
   --id checkout-tax \
   --goal "Tax is calculated consistently through checkout" \
   --criterion "API returns the agreed tax breakdown" \
@@ -25,7 +44,7 @@ Keep identifiers stable and shell-safe. Each slice uses `title::outcome`. Initia
 ## Recover without loading a plan
 
 ```bash
-python3 <skill>/scripts/loop_state.py packet --id checkout-tax
+<skill>/scripts/loopctl packet --id checkout-tax
 ```
 
 The packet is intentionally small. Treat `NEXT` as the immediate action. Inspect the repository diff when the packet reports a dirty worktree; do not expand the packet into new planning files.
@@ -37,7 +56,7 @@ Use `status --id <id> --json` only for exceptional recovery or debugging the sta
 After implementation and focused validation:
 
 ```bash
-python3 <skill>/scripts/loop_state.py finish \
+<skill>/scripts/loopctl finish \
   --id checkout-tax \
   --evidence "Tax response now includes jurisdiction totals" \
   --validation "Focused API tests pass" \
@@ -51,16 +70,16 @@ This completes the active slice and activates the next one. `--next` is required
 Use these only when implementation cannot continue:
 
 ```bash
-python3 <skill>/scripts/loop_state.py block \
+<skill>/scripts/loopctl block \
   --id checkout-tax \
   --reason "Required Postgres service is unavailable" \
   --next "Ask the user to start Postgres"
 
-python3 <skill>/scripts/loop_state.py resume \
+<skill>/scripts/loopctl resume \
   --id checkout-tax \
   --next "Run the integration test against Postgres"
 
-python3 <skill>/scripts/loop_state.py replan \
+<skill>/scripts/loopctl replan \
   --id checkout-tax \
   --reason "The provider adapter is the actual ownership boundary" \
   --next "Reinspect the provider boundary before editing"
@@ -73,7 +92,7 @@ python3 <skill>/scripts/loop_state.py replan \
 After all slices are finished:
 
 ```bash
-python3 <skill>/scripts/loop_state.py close \
+<skill>/scripts/loopctl close \
   --id checkout-tax \
   --criterion-evidence "API contract test verifies the tax breakdown" \
   --criterion-evidence "Browser test verifies the displayed totals"

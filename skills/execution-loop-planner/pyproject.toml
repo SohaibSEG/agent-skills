@@ -1,0 +1,9 @@
+[project]
+name = "execution-loop-planner-tooling"
+version = "1.0.0"
+description = "Isolated runtime for the execution-loop-planner state tool"
+requires-python = ">=3.11,<3.12"
+dependencies = []
+
+[tool.uv]
+package = false

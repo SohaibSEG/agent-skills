@@ -1,5 +1,7 @@
-#!/usr/bin/env python3
-"""Compact, external recovery state for execution-loop-planner."""
+"""Compact, external recovery state for execution-loop-planner.
+
+Run this module only through scripts/loopctl, which supplies the isolated uv runtime.
+"""
 
 from __future__ import annotations
 

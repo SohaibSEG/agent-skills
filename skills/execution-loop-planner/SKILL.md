@@ -30,9 +30,11 @@ The newest user direction wins. Do not reinterpret the goal merely to match comp
 
 ## Use the state tool
 
-For work likely to cross a context window, use `scripts/loop_state.py`. Read [references/tooling.md](references/tooling.md) only when initializing, recovering, or changing loop state.
+For work likely to cross a context window, use `scripts/loopctl`. Read [references/tooling.md](references/tooling.md) only when initializing, recovering, or changing loop state.
 
-The tool stores compact state outside the repository and emits a small recovery packet. Do not create or maintain `GOAL.md`, `CHECKPOINT.md`, progress diaries, or parallel plan files unless the user explicitly asks for them.
+Before the first tool call, run `scripts/loopctl doctor`. This check is read-only. If the isolated runtime is not ready, do not install anything automatically: explain that setup installs a uv-managed Python and creates a skill-only environment outside the target repository, then ask the user before running `scripts/setup_runtime.sh`. If `uv` itself is missing, ask the user to install it; do not alter the system Python or install into global Python environments.
+
+The tool and its runtime store state outside the repository and emit a small recovery packet. Invoke it only through `loopctl`, never through bare `python` or `python3`. Do not create or maintain `GOAL.md`, `CHECKPOINT.md`, progress diaries, or parallel plan files unless the user explicitly asks for them.
 
 State-write budget:
 
