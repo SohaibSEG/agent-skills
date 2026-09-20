@@ -28,7 +28,7 @@ The upstream `setup-matt-pocock-skills` skill is not included.
 - License copy: [`licenses/i-have-adhd-MIT.txt`](licenses/i-have-adhd-MIT.txt)
 - Copyright: Copyright (c) 2026 Ayoub Ghriss
 
-The skill instructions are from upstream. Local changes only migrate invocation metadata to Codex's supported `agents/openai.yaml` policy format.
+The skill body is from upstream. Local changes adapt its discovery and invocation metadata for Codex and Claude Code.
 
 ## Playwright skills
 
@@ -58,4 +58,3 @@ The following are maintained as personal skills in this repository and are not a
 - `github-pr-template`
 - `handoff-session-context`
 - `pr-review-qa`
-

@@ -38,6 +38,24 @@ Claude Code reads the shared `SKILL.md` files but does not use Codex's invocatio
 
 Some skills depend on host capabilities such as browser automation, subprocesses, GitHub access, or subagents. A compatible instruction format does not manufacture a tool that the active host does not provide; the skill should stop and report the missing capability.
 
+### Make ADHD mode the session default
+
+Implicit invocation makes `i-have-adhd` available to the model, but a short global instruction is what activates it reliably for every new session.
+
+For Codex, add this to `~/.codex/AGENTS.md`:
+
+```markdown
+At the start of every session, load and apply the `$i-have-adhd` skill. Keep it active until I say `stop adhd mode` or `normal mode`.
+```
+
+For Claude Code, add this to `~/.claude/CLAUDE.md`:
+
+```markdown
+At the start of every session, load and apply the `/i-have-adhd` skill. Keep it active until I say `stop adhd mode` or `normal mode`.
+```
+
+These are personal, host-level preferences; they do not modify any project repository. Start a new session after changing them.
+
 ## Catalog
 
 | Skill | Purpose | Invocation | Origin |
@@ -50,7 +68,7 @@ Some skills depend on host capabilities such as browser automation, subprocesses
 | `grill-me` | Explicit entry point for a structured grilling session | Explicit | Matt Pocock, customized |
 | `grilling` | Stress-test a plan or decision through dependency-aware questions | Automatic | Matt Pocock |
 | `handoff-session-context` | Package actionable context for continuation in a fresh session | Automatic | Personal |
-| `i-have-adhd` | Keep responses action-first, compact, and easy to resume | Explicit | Ayoub Ghriss, metadata adapted |
+| `i-have-adhd` | Keep responses action-first, compact, and easy to resume | Automatic | Ayoub Ghriss, metadata adapted |
 | `playwright` | Automate browser workflows through the Playwright CLI | Automatic | Microsoft/OpenAI adaptation |
 | `playwright-interactive` | Run persistent browser and Electron QA sessions | Automatic | OpenAI adaptation; Microsoft assets |
 | `pr-review-qa` | Review and test a PR in an isolated worktree across backend, UI, infrastructure, design, quality, and performance | Explicit | Personal |

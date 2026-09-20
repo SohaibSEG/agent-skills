@@ -1,6 +1,6 @@
 interface:
   display_name: "I Have ADHD"
   short_description: "Action-first ADHD-friendly responses"
-  default_prompt: "Use $i-have-adhd to enable ADHD-friendly responses for this session."
+  default_prompt: "Use $i-have-adhd to keep responses ADHD-friendly for this session."
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true
