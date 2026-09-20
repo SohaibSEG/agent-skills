@@ -7,7 +7,7 @@ A public, versioned collection of personal agent skills plus attributed third-pa
 Install interactively with the skills CLI:
 
 ```bash
-npx skills@latest add SohaibSEG/codex-skills
+npx skills@latest add SohaibSEG/agent-skills
 ```
 
 Choose Codex, Claude Code, or both as installation targets. A compatible skill keeps its shared `SKILL.md`, references, and scripts together; host-specific metadata stays additive.
@@ -16,7 +16,7 @@ For a single skill, use Codex's GitHub installer with the path under `skills/`, 
 
 ```bash
 python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
-  --repo SohaibSEG/codex-skills \
+  --repo SohaibSEG/agent-skills \
   --path skills/pr-review-qa
 ```
 
