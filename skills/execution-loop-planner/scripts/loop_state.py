@@ -72,10 +72,20 @@ def git_snapshot(repo: Path) -> dict[str, Any]:
 
 
 def default_root() -> Path:
-    configured = os.environ.get("CODEX_EXECUTION_LOOP_STATE")
+    configured = os.environ.get("EXECUTION_LOOP_STATE") or os.environ.get(
+        "CODEX_EXECUTION_LOOP_STATE"
+    )
     if configured:
         return Path(configured).expanduser().resolve()
-    return Path.home() / ".codex" / "state" / "execution-loops"
+    configured_state_home = os.environ.get("AGENT_SKILLS_STATE_HOME")
+    xdg_state_home = os.environ.get("XDG_STATE_HOME")
+    if configured_state_home:
+        state_home = Path(configured_state_home).expanduser().resolve()
+    elif xdg_state_home:
+        state_home = Path(xdg_state_home).expanduser().resolve() / "agent-skills"
+    else:
+        state_home = Path.home() / ".local" / "state" / "agent-skills"
+    return state_home / "execution-loop-planner" / "loops"
 
 
 def repo_key(repo: Path) -> str:

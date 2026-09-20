@@ -30,7 +30,7 @@ The newest user direction wins. Do not reinterpret the goal merely to match comp
 
 ## Use the state tool
 
-For work likely to cross a context window, use `scripts/loopctl`. Read [references/tooling.md](references/tooling.md) only when initializing, recovering, or changing loop state.
+For work likely to cross a context window, use `scripts/loopctl`. Resolve commands relative to the directory containing this `SKILL.md`; Claude Code exposes that directory as `${CLAUDE_SKILL_DIR}`, while Codex supplies the installed skill path when loading the skill. Read [references/tooling.md](references/tooling.md) only when initializing, recovering, or changing loop state.
 
 Before the first tool call, run `scripts/loopctl doctor`. This check is read-only. If the isolated runtime is not ready, do not install anything automatically: explain that setup installs a uv-managed Python and creates a skill-only environment outside the target repository, then ask the user before running `scripts/setup_runtime.sh`. If `uv` itself is missing, ask the user to install it; do not alter the system Python or install into global Python environments.
 
@@ -68,7 +68,7 @@ Use the repository diff, tests, commits, and service state as evidence. Do not d
 - After two failed implementation attempts with the same symptom, diagnose before editing again.
 - After three unsuccessful iterations, replan or ask for user input; do not keep cycling.
 
-Specialist skills are optional routes, not mandatory ceremony. Use `$diagnosing-bugs` for a stubborn failure, `$pr-review-qa` for an explicitly requested final review, `$github-pr-template` when publishing an authorized PR, and `$handoff-session-context` only when the user wants a session handoff.
+Specialist skills are optional routes, not mandatory ceremony. When installed, use the host's explicit invocation syntax (`$name` in Codex or `/name` in Claude Code): `diagnosing-bugs` for a stubborn failure, `pr-review-qa` for an explicitly requested final review, `github-pr-template` when publishing an authorized PR, and `handoff-session-context` only when the user wants a session handoff.
 
 ## Completion
 

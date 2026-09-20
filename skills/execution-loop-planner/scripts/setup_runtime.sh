@@ -4,12 +4,16 @@ set -eu
 script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 skill_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
 
-if [ -n "${CODEX_EXECUTION_LOOP_RUNTIME:-}" ]; then
+if [ -n "${EXECUTION_LOOP_RUNTIME:-}" ]; then
+    runtime_dir=$EXECUTION_LOOP_RUNTIME
+elif [ -n "${CODEX_EXECUTION_LOOP_RUNTIME:-}" ]; then
     runtime_dir=$CODEX_EXECUTION_LOOP_RUNTIME
-elif [ -n "${CODEX_HOME:-}" ]; then
-    runtime_dir=$CODEX_HOME/state/execution-loop-planner/runtime
+elif [ -n "${AGENT_SKILLS_STATE_HOME:-}" ]; then
+    runtime_dir=$AGENT_SKILLS_STATE_HOME/execution-loop-planner/runtime
+elif [ -n "${XDG_STATE_HOME:-}" ]; then
+    runtime_dir=$XDG_STATE_HOME/agent-skills/execution-loop-planner/runtime
 else
-    runtime_dir=$HOME/.codex/state/execution-loop-planner/runtime
+    runtime_dir=$HOME/.local/state/agent-skills/execution-loop-planner/runtime
 fi
 
 if ! command -v uv >/dev/null 2>&1; then
