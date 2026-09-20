@@ -1,0 +1,4 @@
+interface:
+  display_name: "Execution Loop Planner"
+  short_description: "Plan durable, bounded implementation loops"
+  default_prompt: "Use $execution-loop-planner to design a recoverable implementation loop for this goal."

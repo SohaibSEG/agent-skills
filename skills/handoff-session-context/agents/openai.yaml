@@ -1,0 +1,4 @@
+interface:
+  display_name: "Session Context Handoff"
+  short_description: "Transfer actionable context to a new session"
+  default_prompt: "Use $handoff-session-context to prepare this task for continuation in a fresh session."

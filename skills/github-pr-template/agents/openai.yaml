@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub PR Template"
+  short_description: "Write PR bodies with the structured Siraj template."
+  default_prompt: "Create or update a GitHub PR using the structured Summary, What changed, Technical notes, Test plan, and Files overview template."
