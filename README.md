@@ -93,7 +93,7 @@ Use `$review-cookbook review this branch against main` in Codex or `/review-cook
 
 Reviews proceed through model/system design, implementation, then user journey and UX gates. A source-review blocker stops progression; later layers remain explicitly unreviewed. Outstanding execution evidence blocks readiness without automatically stopping otherwise assessable source review. Test quality is assessed within every gate, and later evidence can reopen an upstream assumption. Review effort follows relevant coverage and evidence, without fixed finding, word or work-count quotas.
 
-**Experimental on this branch:** the inspection framework is under evaluation; the latest revision has not yet undergone a comparative PR test. The published stable skill remains on `main`.
+**Experimental on this branch:** a source-review regression comparison against the earlier coverage-enhanced control found useful detections but also missed design causes and incomplete coverage claims. It did not demonstrate consistent improvement. The framework remains experimental; the published stable skill remains on `main`. Repeated samples and single runs per condition do not establish reliability or performance on unseen changes.
 
 The shared [inspection framework](skills/review-cookbook/references/investigation.md) organises code inspection and source-to-sink tracing by affected behaviour and shared contracts. It reconstructs the implemented design, verifies findings, and reconciles coverage across large changes. Hypotheses support uncertain investigations; they do not replace inspection. Reviewers keep one linked working record and distinguish source reasoning from observed execution.
 
