@@ -91,7 +91,7 @@ Select counterfactuals from the actual decision inputs and supported behavior; t
 | Add the next documented variation | The rule has an intelligible owner; changes do not require synchronized exception lists everywhere |
 | Grow the dominant input or deny a dependency | Work is bounded and recovery is defined rather than silently losing correctness |
 
-Label each conclusion as source-proven, runtime-observed, contradicted or unresolved. Use a compact ledger: hypothesis → discriminating case/prediction → evidence → conclusion. Inspect the strongest existing guard, constraint, snapshot or consumer check that might prevent the alleged failure; explain why it does or does not. Retain a rejected hypothesis in the ledger when its counterevidence materially changes the recommendation; exclude it from actionable findings. A credible future variation can compare maintainability; it is a blocker only when it exposes a current required rule or an explicitly committed requirement.
+Use the shared [investigation record](investigation.md), keeping the case conclusion separate from its evidence basis. Inspect the strongest existing guard, constraint, snapshot or consumer check that could refute the alleged failure; explain why it does or does not. Retain disproved cases and unresolved assumptions in the working record, not as confirmed findings. A credible future variation can compare maintainability; it is a blocker only when it exposes a current required rule or an explicitly committed requirement.
 
 ## 8. Compare alternatives and defend one recommendation
 
@@ -119,7 +119,7 @@ Separate read and write needs when justified, but do not escalate that observati
 
 ## 10. Return a decision brief, not a checklist recital
 
-Use the parent skill's report format: consequential findings first, followed by this design brief as supporting evidence and recommendations. Ground it in three compact artifacts: the fact/authority map, an end-to-end causal trace, and the counterexample ledger. Keep detailed maps available as evidence; show only what the decision needs. Follow supported paths capable of violating the changed invariant, not every lifecycle in the product.
+Use the parent skill's report format: consequential findings first, followed by this design brief as supporting evidence and recommendations. Use the shared investigation record for its fact/authority map, end-to-end traces and counterexamples; do not recreate them as three separate artifacts. Keep detailed maps available as evidence; show only what the decision needs. Follow supported paths capable of violating the changed invariant, not every lifecycle in the product.
 
 ```text
 Problem and invariant:
