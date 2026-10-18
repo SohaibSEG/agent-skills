@@ -15,14 +15,8 @@ This workflow is an engineering synthesis, not a validated claim that adversaria
 
 The decision-authority trace, evidence requirements for reframing, inherited-contract relevance test and separation from implementation authority are this package's own synthesis. They must be evaluated empirically. Prior successes do not make their conclusions true in a new review.
 
-## What a useful evaluation measures
+## Framing-specific evaluation
 
-Freeze source/base/candidate, raw issue and discussion, engineering rules and allowed tools. Give fresh independent agents the realistic task and the assigned skill; exclude prior findings, expected answers and other runs. Keep raw context useful but challengeable. Record exact skill contents so an edit cannot silently change an experiment in progress.
+Use the shared [evaluation protocol](../../../references/evaluation.md) for frozen inputs, fresh contexts, comparison, adjudication and limitations. Evaluate whether the reviewer establishes the underlying operational rule, invalid selection/ownership assumption, reachable consequence and complete correction. A smell name or another manifestation is not root-design detection.
 
-Evaluate substantive findings against source, including rejected and unresolved candidates. Score whether the reviewer established the underlying rule, invalid decision input or boundary, a reachable consequence, and a complete correction. Naming a smell, reporting another manifestation or saying “use a reusable abstraction” does not demonstrate root-design detection.
-
-Include negative checks: an explicit stable contract, a legitimately specialized rule, a corrected revision, and defects that are local implementation errors. The skill must be able to defend a sound design and decline a reframe. Distinguish repeated familiar samples from genuinely held-out evaluation; never put private benchmark answers in the skill.
-
-When comparing workflows, use equivalent frozen evidence, execution permissions and output requests. A design-only role and a full reviewer have different scopes; report that difference. Do not infer superiority from report length, agreement, number of findings or comparison with a historical run alone. Adjudicate causal claims independently; preserve novel singleton findings when valid.
-
-Record missed defects, false accusations, justified exclusions, unsupported objections, actual tracing effort and remaining proof. No arbitrary word, finding, file or work-count limits. Stop by the assigned scope and evidence, not by a target number of objections. Source-only tests do not establish runtime reliability, visual quality or full review readiness.
+Include defended sound designs, legitimate specialization and corrected revisions. Distinguish a justified reframe from mandatory abstraction or contrarian disagreement. This role does not replace structural coverage or prove full review readiness.

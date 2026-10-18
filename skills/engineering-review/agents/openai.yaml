@@ -1,0 +1,4 @@
+interface:
+  display_name: "Engineering Review"
+  short_description: "Review PR design, code, UX and test quality"
+  default_prompt: "Use $engineering-review to review this PR and report verified findings without implementing changes or running QA."

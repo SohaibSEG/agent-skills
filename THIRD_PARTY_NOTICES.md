@@ -58,4 +58,4 @@ The following are maintained as personal skills in this repository and are not a
 - `github-pr-template`
 - `handoff-session-context`
 - `pr-review-qa`
-- `review-cookbook` — original review instructions and checklists, with primary-source references linked beside the relevant guidance. Named refactoring techniques retain attribution to their authors; no source articles, book chapters, or third-party skill implementations are bundled.
+- `engineering-review` — original review instructions and checklists, with primary-source references linked beside the relevant guidance. Named refactoring techniques retain attribution to their authors; no source articles, book chapters, or third-party skill implementations are bundled.

@@ -136,6 +136,4 @@ Technique: [Separate Query from Modifier](https://refactoring.com/catalog/separa
 
 Source: [Sandi Metz, The Wrong Abstraction](https://sandimetz.com/blog/2016/1/20/the-wrong-abstraction).
 
-## Deliver a recommendation, not a rewrite
-
-For each applicable pattern, return: current failure mechanism → proposed responsibility or representation → affected callers → behavior to preserve → essential proof. Mark optional cleanup as optional. A source-only recommendation remains unimplemented and unverified; do not report a pattern application as a completed fix.
+Use the shared [finding record](review-records.md), adding the proposed responsibility/representation, affected callers and technique-specific preservation constraints.

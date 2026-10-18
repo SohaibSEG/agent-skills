@@ -74,60 +74,39 @@ These are personal, host-level preferences; they do not modify any project repos
 | `pr-review-qa` | Review and test a PR in an isolated worktree across backend, UI, infrastructure, design, quality, and performance | Explicit | Personal |
 | `prototype` | Build a throwaway prototype that answers a design question | Explicit | Matt Pocock, customized |
 | `research` | Investigate a question using high-trust primary sources | Explicit | Matt Pocock, customized |
-| [`review-cookbook`](skills/review-cookbook/SKILL.md) | Review system design, root causes, data integrity, user journeys, UI consistency and tests; recommend corrections without implementing them | Automatic | Personal, primary-source references |
+| [`engineering-review`](skills/engineering-review/SKILL.md) | Review system design, root causes, data integrity, user journeys, UI consistency and tests; recommend corrections without implementing them | Automatic | Personal, primary-source references |
 | `tdd` | Implement a requested change with a red-green-refactor loop | Explicit | Matt Pocock, customized |
 | `to-tickets` | Turn a plan into dependency-aware tracer-bullet tickets | Explicit | Matt Pocock, customized |
 | `wayfinder` | Resolve the decision map for work too large for one session | Explicit | Matt Pocock, customized |
 
 `setup-matt-pocock-skills` is intentionally not included. The adapted skills discover context at invocation time and do not require repository-local setup.
 
-## Review cookbook
+## Engineering review
 
-Install this review-only skill for Codex and Claude Code:
+The complete review-only package is [engineering-review](skills/engineering-review/SKILL.md), formerly `review-cookbook`. Install the parent folder; all eight reviewers and their references are included:
 
 ```bash
-npx skills@latest add SohaibSEG/agent-skills --skill review-cookbook --global --agent codex --agent claude-code
+npx skills@latest add SohaibSEG/agent-skills --skill engineering-review --global --agent codex --agent claude-code
 ```
 
-Use `$review-cookbook review this branch against main` in Codex or `/review-cookbook review this branch against main` in Claude Code. It produces findings, correction recommendations and a validation assessment. It does **not** implement fixes, edit tests, provision infrastructure, publish reviews or change PR state.
+Invoke `$engineering-review review this PR` in Codex or `/engineering-review review this PR` in Claude Code. The parent routes through design, implementation and experience gates, with test-quality review throughout and separate finding verification and coverage auditing. It returns findings and required proof; it does not implement changes or execute QA.
 
-Reviews proceed through system design, implementation, then user experience. Test quality is assessed within every gate. The review workflow builds a source-backed inventory, inspects affected flows, verifies candidate findings and independently audits omitted paths. It retains decisions and evidence so a rejected finding or uninspected consumer cannot silently disappear. A source blocker stops dependent gates while investigation continues within the blocked gate. Missing essential execution blocks readiness; source clearance is not runtime proof.
+| Reviewer | Responsibility |
+|---|---|
+| [Problem framing](skills/engineering-review/reviewers/problem-framing-review/SKILL.md) | Check the underlying problem, rule ownership and proposed mechanism; reframe only with evidence. |
+| [System design](skills/engineering-review/reviewers/system-design-review/SKILL.md) | Inspect models, identity, lifecycle, history, consistency and scale. |
+| [Code design](skills/engineering-review/reviewers/code-design-review/SKILL.md) | Inspect contracts, dependencies, control flow, reuse and refactoring opportunities. |
+| [Backend, data and security](skills/engineering-review/reviewers/backend-data-security-review/SKILL.md) | Trace authorization, database integrity, migrations, audit, concurrency and effects. |
+| [Frontend and UX](skills/engineering-review/reviewers/frontend-ux-review/SKILL.md) | Review frontend state, user journeys, established visual patterns and accessibility. |
+| [Test quality](skills/engineering-review/reviewers/test-quality-review/SKILL.md) | Assess test oracles, assertions, production paths and submitted evidence without running tests. |
+| [Finding verification](skills/engineering-review/reviewers/review-finding-verification/SKILL.md) | Accept, narrow or reject candidate findings using source and counterevidence. |
+| [Review coverage](skills/engineering-review/reviewers/review-coverage-audit/SKILL.md) | Independently inspect omitted paths and integration seams. |
 
-**Validation status:** package checks and independent structural review pass. Fresh source-review experiments on established snapshots produced stronger rule-ownership, history and temporal-contract arguments, while still missing some consequential paths. Independent verification narrowed several claims and correction boundaries. These familiar source-only cases do not establish general superiority, runtime correctness or UX quality. Coverage improvements remain ongoing.
+`SKILL.md` owns the workflow, `references/review-contract.md` owns shared policy, and `reviewers/<role>/SKILL.md` selects only its relevant guidance. Source guides and primary-source research remain in the same folder. No child registration or additional skill installation is needed. Independent agents are used where available and warranted; role names do not mandate eight agents or any work quota.
 
-The [entry point](skills/review-cookbook/SKILL.md) coordinates dedicated guides:
+QA remains the separate, explicitly invoked `pr-review-qa` process. Installing or invoking Engineering Review does not invoke QA or grant infrastructure, test execution or implementation authority.
 
-- [System design](skills/review-cookbook/references/system-design.md): meaning, authority, identity, relationships, historical behavior, consistency, failure and scale.
-- [Code design and clean code](skills/review-cookbook/references/code-design.md): module depth, coupling, contracts, control flow, effects, frontend seams and actual extension pressure; with [14 refactoring patterns](skills/review-cookbook/references/refactoring-patterns.md) and [backend/data/security checks](skills/review-cookbook/references/backend.md).
-- [User stories and interaction paths](skills/review-cookbook/references/user-journey.md): starting knowledge, decision burden, discovery, recovery and completion; with [frontend conformance, CSS and accessibility](skills/review-cookbook/references/frontend.md).
-- [Test quality](skills/review-cookbook/references/test-quality.md): independent oracles, production-path coverage, meaningful assertions, fault sensitivity and real-boundary proof.
-- [Inspection](skills/review-cookbook/references/investigation.md), [coordination](skills/review-cookbook/references/coordination.md), [verification](skills/review-cookbook/references/verification.md) and [working records](skills/review-cookbook/references/review-records.md): the workflow connecting the specialist guides and checking omissions.
-
-The reviewer and guides are bundled under one installable parent skill, so Codex and Claude Code receive the same review procedure without missing sibling-skill dependencies. Independent reviewers are used when permitted and available; a sequential run must disclose its lack of independence. Effort follows evidence and relevant coverage, without fixed finding, word or work-count quotas. Primary sources remain linked beside their original review applications; [research provenance](skills/review-cookbook/references/review-system-research.md) separates documented industry practices from proposed adaptations, and [evaluation guidance](skills/review-cookbook/references/evaluation.md) explains how to test actual findings. The package contains no private project examples or benchmark answers.
-
-This skill supplies review reasoning and can be used independently. `pr-review-qa` is a separate explicitly invoked workflow for isolated setup and runtime QA; installing or invoking the cookbook does not invoke it. Neither skill grants implementation authority.
-
-The shared `SKILL.md` format follows the [Agent Skills standard used by Claude Code](https://code.claude.com/docs/en/skills) and [Codex skill guidance](https://learn.chatgpt.com/docs/customization/overview#skills). Codex UI metadata is additive. The [skills CLI](https://github.com/vercel-labs/skills) supports selecting both agent targets; actual runtime review capabilities depend on the host's installed tools.
-
-## One review package
-
-Install and invoke **`review-cookbook`**. Its parent `SKILL.md` routes to the bundled reviewer and specialist references; do not install the reviewer separately.
-
-```text
-skills/review-cookbook/
-├── SKILL.md                        # Parent: scope, gates and coordination
-├── agents/openai.yaml
-├── reviewers/
-│   └── adversarial-design-review/
-│       ├── SKILL.md                # Independent problem/solution challenge
-│       └── references/            # Challenge operations and research
-└── references/                    # System/code design, backend, tests, UX,
-                                   # refactoring, inspection and verification
-```
-
-Use `$review-cookbook challenge the design of this change` in Codex or `/review-cookbook challenge the design of this change` in Claude Code. The parent reads the [bundled adversarial reviewer](skills/review-cookbook/reviewers/adversarial-design-review/SKILL.md), which distinguishes business purpose, operational rule and enforcement, traces a concrete counterexample and checks the strongest defense. It can conclude that no reframe is justified. Recommendations never authorize implementation.
-
-The complete package is published on `main` and available through the installation commands above. Its [research and evaluation guidance](skills/review-cookbook/reviewers/adversarial-design-review/references/research-and-evaluation.md) separates primary-source influences from this package's synthesis; coverage improvements remain ongoing.
+Package checks and independent reviews cover instruction consistency and packaging. Familiar source-snapshot trials have demonstrated useful findings but uneven coverage; they do not establish general accuracy, runtime correctness or rendered-UX quality. See [research provenance](skills/engineering-review/references/review-system-research.md), [framing research](skills/engineering-review/reviewers/problem-framing-review/references/research-and-evaluation.md) and [evaluation guidance](skills/engineering-review/references/evaluation.md). The package includes no private benchmark answers.
 
 ## Execution loop runtime
 

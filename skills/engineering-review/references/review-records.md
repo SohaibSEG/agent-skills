@@ -4,7 +4,7 @@ Use one evolving external record in Markdown or the host's existing format. A sm
 
 ## Target and permissions
 
-Record base/candidate identities, stack dependencies, raw context sources and missing material; review scope and current gate; allowed source/runtime tools and environment boundaries. Record relevant changes to the candidate during review. Artifact identity is not evidence of behavior.
+Record base/candidate identities, stack dependencies, raw context sources and missing material; review scope and current gate; read-only inspection scope, existing evidence sources and separate QA proof gaps. Record relevant changes to the candidate during review. Artifact identity is not evidence of behavior.
 
 ## Path and obligation inventory
 

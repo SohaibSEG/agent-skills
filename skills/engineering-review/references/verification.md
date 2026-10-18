@@ -10,7 +10,7 @@ Finding correctness and review completeness are different questions. Complete bo
 4. **Match impact and correction to evidence.** State concrete consequences and qualifying conditions without assuming prevalence. Check that the recommended boundary removes the cause while preserving supported alternatives and historical meaning. Separate behavior changes from behavior-preserving refactoring. Broad redesign remains a scope recommendation, not implementation authority.
 5. **Record the decision.** Accept a verified defect, reject with decisive counterevidence, or retain an unresolved contract/proof gap. Never silently discard a candidate because another reviewer missed it. Group duplicate manifestations only when the cause and correction are shared; preserve distinct effects and affected consumers.
 
-For runtime assertions record what actually ran, with identity and environment. Source-proven conditional failure is valuable but is not an executed reproduction. Missing required proof is a readiness gap, not automatically a technical defect. A test's passing result cannot refute a path its fixtures or assertions do not exercise.
+For runtime assertions inspect supplied QA evidence and record what actually ran, its producer, identity and environment. Do not execute QA to manufacture that evidence during review. Source-proven conditional failure is valuable but is not an executed reproduction. Missing required proof is a readiness gap, not automatically a technical defect. A test's passing result cannot refute a path its fixtures or assertions do not exercise.
 
 ## Audit omissions independently
 

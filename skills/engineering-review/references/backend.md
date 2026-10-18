@@ -1,6 +1,6 @@
 # Backend review cookbook
 
-Use the applicable sections to trace changed behavior from entry point to durable effects. These are review steps and recommendation patterns, not authorization to edit code. Inspect existing evidence; run validation only when authorized and consistent with project rules; recognize authorization already established in the session. Record missing essential runtime proof as a readiness blocker. A causal design flaw remains blocking until addressed; unrelated architectural renovation needs separate authorization. PostgreSQL examples below are engine-specific; verify equivalent behavior for the actual database and version.
+Use relevant sections to trace server operations from entry to durable effects. PostgreSQL-specific checks require the actual engine/version; do not generalize them to another database without evidence.
 
 ## 1. Locate the operation and its invariant
 
@@ -48,7 +48,7 @@ Use the applicable sections to trace changed behavior from entry point to durabl
 
 1. Trace list, search, export, and batch work as data volume grows. Identify unbounded reads, repeated per-row queries, unstable pagination, large in-memory materialization, and input-controlled fan-out. Recommend bounded work or batching where the mechanism is demonstrated.
 2. Inspect request sizes, concurrent work, queue capacity, and slow dependencies. Recommend explicit budgets and isolation where one expensive operation can exhaust shared resources. Define overload evidence that includes other callers' progress. [OWASP denial of service](https://cheatsheetseries.owasp.org/cheatsheets/Denial_of_Service_Cheat_Sheet.html)
-3. **PostgreSQL:** inspect representative `EXPLAIN (ANALYZE, BUFFERS)` evidence for estimates versus actual rows, loops, filtering, and I/O. Compare query shape and index choices against realistic cardinality; a sequential scan is not automatically a flaw. `ANALYZE` executes the statement, so obtain authorization and use a safe disposable environment for effectful queries. [PostgreSQL EXPLAIN](https://www.postgresql.org/docs/current/using-explain.html)
+3. **PostgreSQL:** inspect representative `EXPLAIN (ANALYZE, BUFFERS)` evidence for estimates versus actual rows, loops, filtering, and I/O. Compare query shape and index choices against realistic cardinality; a sequential scan is not automatically a flaw. `ANALYZE` executes the statement: inspect existing results or specify this as separate QA work on a safe disposable environment; do not execute it during review. [PostgreSQL EXPLAIN](https://www.postgresql.org/docs/current/using-explain.html)
 4. Define before/after latency, query-count, memory, and result-correctness evidence appropriate to the claim. Do not accept an index's presence or a tiny fixture's timing as proof of scale.
 
 ## 8. Trace unsafe inputs and dependency exposure

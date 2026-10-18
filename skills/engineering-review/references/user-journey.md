@@ -1,6 +1,6 @@
 # User-story and journey review
 
-Use when a change introduces or alters how a person discovers, understands, completes or recovers a task. Review the journey before judging individual controls. This reference produces findings and design recommendations only; it does not authorize implementation, recruiting participants, analytics instrumentation or changes to real records. Use [Frontend](frontend.md) for component conformance, rendered states, CSS and accessibility mechanics; use [System design](system-design.md) for the underlying state and authority contracts.
+Use when a change introduces or alters how a person discovers, understands, completes or recovers a task. Review the journey before judging individual controls. Trace journeys in source and existing research/rendered evidence; proposed participant or browser exercises are QA handoff requirements, not actions to execute. This reference produces findings and design recommendations only; it does not authorize implementation, recruiting participants, analytics instrumentation or changes to real records. Use [Frontend](frontend.md) for component conformance, rendered states, CSS and accessibility mechanics; use [System design: authority and relationships](system-design.md#reconstruct-authority-identity-and-relationships-from-source) for the underlying state and authority contracts.
 
 The question is: **can the intended person get from their starting situation to a verified outcome, with understandable choices and no unnecessary work?** A working form and a successful request are intermediate events, not necessarily the person's goal. The guidance below translates primary author material into review actions; it does not prescribe a particular organization's visual design system. These are original review procedures, not reproductions of the cited books or a claim to have read them in full.
 
@@ -47,7 +47,7 @@ At every consequential state, inspect these questions from the person's visible 
 
 An issue view must explain the issue and affected outcome before asking for an edit. Check whether visual cues communicate the available action and its scope; do not rely on hidden hover or gesture behavior alone. Separate action importance without making cancel, back or legitimate alternatives hard to find. Distinguish genuine alternatives from accidental competition between commit and destructive reset. Recommend task-specific labels and familiar interaction patterns.
 
-Sources: [Don Norman: Signifiers, Not Affordances](https://jnd.org/signifiers-not-affordances/) and [Luke Wroblewski: Primary and Secondary Actions](https://www.lukew.com/ff/571/primary-secondary-actions-in-web-forms). Wroblewski's study illustrates a trade-off between speed and avoiding accidental cancellation; it does not establish a universal button order. Apply the product's established pattern and test the relevant task. A plausible discoverability concern remains a hypothesis without supporting evidence.
+Sources: [Don Norman: Signifiers, Not Affordances](https://jnd.org/signifiers-not-affordances/) and [Luke Wroblewski: Primary and Secondary Actions](https://www.lukew.com/ff/571/primary-secondary-actions-in-web-forms). Wroblewski's study illustrates a trade-off between speed and avoiding accidental cancellation; it does not establish a universal button order. Apply the product's established pattern and assess supplied evidence for the relevant task. A plausible discoverability concern remains a hypothesis without supporting evidence.
 
 ## 5. Remove work before adding guidance
 
@@ -78,7 +78,7 @@ Source: [Page Laubheimer: Preventing User Errors](https://www.nngroup.com/articl
 
 ## 8. Review recovery as a first-class journey
 
-Walk the relevant failure paths: missing information, conflicting state, denied permission, unavailable dependency, session expiry and interrupted submission. For each, check:
+Trace the relevant failure paths through source and existing evidence: missing information, conflicting state, denied permission, unavailable dependency, session expiry and interrupted submission. For each, check:
 
 1. Can the person understand what failed and whether any action already completed?
 2. Is valid work preserved, and is the next action specific and within their control?
@@ -102,21 +102,10 @@ Source: [Don Norman: feedback and conceptual models](https://jnd.org/opportuniti
 1. Give the actor a realistic goal and starting context without naming the control to click. A script that says which button to use cannot establish discoverability.
 2. Include the normal route and the important recovery or returning-user route. Use realistic data volume, similar record names and supported device/access needs; reuse the frontend reference for detailed checks.
 3. State observable success: the correct durable outcome, clear confirmation and no lost work or unintended side effect. Separate frontend appearance from persistence and downstream completion.
-4. When authorized, observe where representative users hesitate, misinterpret, backtrack, need help or abandon. Avoid coaching them toward the intended control; distinguish their behavior from the reviewer's predicted behavior. Measure the changed risk; do not manufacture benchmark targets or infer confidence from an agent completing a known script.
+4. Assess supplied observations of where representative users hesitate, misinterpret, backtrack, need help or abandon; request missing observation from separate QA/research. Avoid coaching them toward the intended control; distinguish their behavior from the reviewer's predicted behavior. Measure the changed risk; do not manufacture benchmark targets or infer confidence from an agent completing a known script.
 
 Sources: [Marieke McCloskey: Task Scenarios for Usability Testing](https://www.nngroup.com/articles/task-scenarios-usability-testing/) and [Steve Krug: practical usability testing](https://sensible.com/rocket-surgery-made-easy/). If only source inspection is available, label predicted friction accordingly and identify the missing observation. Essential validation still follows the parent skill's readiness gate.
 
-## 11. Return a focused journey finding
+## Return journey-specific evidence
 
-Use the parent's findings-first report. Include only the map and evidence needed to explain the decision:
-
-```text
-Actor, starting situation and intended outcome:
-Actual path and point of friction:
-Evidence: observed failure / source-supported behavior / hypothesis:
-Consequence: wrong action, lost work, unnecessary effort or incomplete outcome:
-Smallest recommended journey change and behavior to preserve:
-Task scenario that would distinguish improvement from cosmetic change:
-```
-
-Do not demand a redesign because another layout is fashionable. Preserve a working flow when the evidence supports it. Separate established visual-conformance defects from speculative usability concerns, apply the existing blocking policy, and stop after the review recommendations.
+Add the actor, starting knowledge, actual path and friction point to the shared [finding record](review-records.md). Distinguish observed failure, source-supported behavior and predicted usability risk. Include the smallest journey correction, preserved behavior and task scenario that would distinguish improvement from cosmetic change. Do not duplicate the parent’s report or gate policy.
