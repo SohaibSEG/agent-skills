@@ -1,14 +1,14 @@
 # System-design review: challenge the model, not just the patch
 
-Use this before the implementation checklists when a change affects domain meaning, data relationships, lifecycle, authority, module contracts, execution topology or growth assumptions. Review the affected system, not the whole repository. This is review-only: inspect, reason from evidence, run only authorized safe checks, and recommend. Do not implement a redesign or repair a migration.
+Use this to deepen the parent skill's decision trace when a change affects domain meaning, data relationships, lifecycle, authority, module contracts, execution topology or growth assumptions. Select the relevant sections; do not restart the same investigation as a separate architecture audit. A model may be a component's configuration contract or a service's decision inputs, not only persisted entities. This is review-only: inspect, reason from evidence, run only authorized safe checks, and recommend.
 
 The objective is a defensible decision: **does this design express the real rule, enforce it through every affected path, and remain understandable and operable under the required conditions?** Architecture names and attractive diagrams are not evidence.
 
 ## 1. Separate the reported symptom from the actual obligation
 
-1. Describe the actor, attempted action, observed failure and required outcome without naming the proposed solution. Compare the issue, discussions, contracts and current implementation; mark disagreements.
-2. Identify what the proposed change assumes caused the failure. Inspect a counterexample that would distinguish that explanation from a different cause. A tool, fixture or environment failure is not automatically a product defect.
-3. State the invariant and its scope: what must always hold, for whom, and during which states? Separate required behavior from desirable future capability. Do not preserve an accidental implementation rule merely because tests encode it.
+1. Use the issue and discussion to recover the actor, attempted action, observed failure, intended outcome and binding constraints. Separate those from suggested diagnoses, mechanisms and prior review verdicts. Retain useful domain explanations; challenge an unsupported prescription without erasing the underlying requirement.
+2. Identify what the proposed change assumes caused the failure and what decision actually determines the outcome. Trace why the selecting information is authoritative; inspect a supported case that distinguishes competing explanations. A tool, fixture or environment failure is not automatically a product defect.
+3. State the invariant and its scope: what must hold, for whom, and during which states? Separate required behavior from desirable future capability. Neither existing code nor a test establishes business meaning on its own. Resolve conflicts through evidence or an explicit product question, not a guessed replacement requirement.
 4. Convert vague claims into scenarios: trigger, operating conditions, affected operation, expected response and observable measure. Use measured workloads or approved targets; mark unknowns instead of inventing performance requirements.
 
 **Review output:** a short problem statement, the required rule, any established violation and its causal evidence, and unresolved product decisions. The proposed change may already satisfy the rule. Ask product only when meaning is unresolved; do not ask the user to find facts available in code.
@@ -20,7 +20,7 @@ Scenario-based evaluation helps expose trade-offs rather than declaring a design
 1. Inspect schema, constraints, models, serializers, commands and actual readers. Record entity identity, scope, cardinality, optionality, lifecycle and historical references. A diagram inferred from class names is insufficient.
 2. Separate dimensions that vary independently. For each overloaded category or status, ask whether it represents presentation, capability, commercial classification, schedule, lifecycle or evidence. Identify which rules consume each dimension.
 3. Enumerate supported and forbidden combinations. Ask where invalid combinations are prevented. Several booleans may permit contradictions; a single giant enum may incorrectly couple independent choices. Recommend neither mechanically.
-4. Distinguish ownership questions: who configures the value, who is authorized to change it, which module enforces its meaning, and which stored record is authoritative? These need not be the same owner.
+4. Distinguish ownership questions: who establishes the fact or policy, who can change its inputs, which module enforces it, and what makes those inputs authoritative? Configuration, derivation and enforcement may have different owners. Verify their contract instead of assuming a consumer knows why it received a value.
 5. Inspect consumers for hidden cardinality assumptions: first item only, a scalar field for a collection, display text used as identity, or uniqueness that exists only in a form.
 
 **Working map:**
@@ -78,7 +78,7 @@ Bounded work and overload response should be evaluated as system behavior; see [
 
 ## 7. Try to falsify the design
 
-Select the counterfactuals relevant to supported behavior; do not invent requirements merely to create findings. Before checking a case, state the observable prediction that distinguishes the competing designs: under one representation this produces X, under the other Y. Capture the result as a short evidence record, not a narration of private deliberation.
+Select counterfactuals from the actual decision inputs and supported behavior; the table offers prompts, not a mandatory test matrix. Before checking a case, state the observable prediction that distinguishes the competing designs: under one representation this produces X, under the other Y. Follow the reachable path and its guards to establish whether that difference occurs. Naming a mutable input or asking for a test does not establish the causal consequence. Capture the result as a short evidence record.
 
 | Challenge | Evidence to seek |
 |---|---|
