@@ -1,6 +1,6 @@
 ---
 name: review-cookbook
-description: Review code changes, pull requests, or stacks for root-cause correctness, backend and data integrity, UI consistency, and test quality. Use for evidence-backed findings and concrete refactoring recommendations, not implementation or delivery.
+description: Review code changes, pull requests, or stacks for root-cause correctness, system design, backend and data integrity, UI consistency, and test quality. Use for evidence-backed findings and concrete design or refactoring recommendations, not implementation or delivery.
 ---
 
 # Review Cookbook
@@ -33,10 +33,13 @@ Review the intended outcome, trace the rule through its owners and consumers, an
 
 ## 3. Apply the relevant review tracks
 
+For changes to domain meaning, relationships, lifecycle, authority, module contracts, execution topology or scaling assumptions, read [System design](references/system-design.md) before the implementation-level tracks. Reconstruct the actual model and compare the proposed patch with the smallest complete correction. Return a concise decision brief grounded in code and counterexamples; a list of architecture smells is insufficient. Do not force this pass onto a narrow change that does not affect those assumptions.
+
 Read only the references needed for the changed risks:
 
 | Change or question | Reference | Expected result |
 |---|---|---|
+| Domain model, ownership, lifecycle, cross-module behavior, architectural trade-offs | [System design](references/system-design.md) | Model/authority map, decisive counterexamples, alternatives and a defended recommendation |
 | Services, model, queries, migrations, security, background work | [Backend and data](references/backend.md) | Concrete contract, integrity and growth findings |
 | Screens, controls, forms, styling, user journeys | [Frontend and usability](references/frontend.md) | Rendered task and design-pattern evidence |
 | Test changes, claimed validation, regression coverage | [Test quality](references/test-quality.md) | What the tests prove and what can still fail |
@@ -75,7 +78,7 @@ Finish with a short validation summary and one disposition:
 - **Blocked:** a relevant defect, conformance mismatch or essential evidence gap remains.
 - **Ready within reviewed scope:** all applicable gates and essential evidence were checked; name the scope. This does not authorize approval, merge or deployment.
 
-For a source-only review, report code findings separately from readiness. If essential runtime checks are outside that scope, state **Blocked: required runtime proof unverified**, even when source inspection found no defect. Do not run beyond the authorized scope merely to clear this gate. If runtime validation is not applicable to the changed risk, say why rather than inventing a runtime requirement.
+For a source-only review, report code findings separately from readiness. If essential runtime checks are outside that scope, state **Blocked: required runtime proof unverified**, even when source inspection found no defect. Do not run beyond the authorized scope merely to clear this gate. A source-only scope does not waive essential proof for changed executable behavior, including deterministic local behavior; the absence of external services is not an exemption. If runtime validation is not applicable to the changed risk, say why rather than inventing a runtime requirement.
 
 Check that recommendations preserve supported paths, historical meaning and downstream consumers. Distinguish defects introduced by the change from pre-existing root weaknesses relevant to its claimed fix. Do not repeatedly report disproved or already-closed findings.
 
