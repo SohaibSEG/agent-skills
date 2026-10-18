@@ -1,79 +1,44 @@
-# Code inspection and source-to-sink review framework
+# Inspect code and establish coverage
 
-Code inspection supplies the evidence; source-to-sink tracing connects it into behaviour; the parent skill's gates determine which questions to settle first. Hypotheses are a supporting technique for uncertain findings. A review must cover affected responsibilities even when no suspected bug initially comes to mind.
+Use the complete candidate diff and raw context. Keep one evolving source-backed map using [Review records](review-records.md). The map is an index to inspected evidence, not evidence by itself. Do not start with a list of imagined bugs and declare coverage when that list is exhausted.
 
-Use one evolving working record in existing notes or an authorised external artifact. Keep the scope proportionate: a small change may need one trace; a large change needs decomposition and an integration pass. This framework grants no execution, delegation or implementation authority beyond the parent skill and user instructions.
+## Establish the affected behavior
 
-## 1. Map the change into reviewable flows
+1. Classify changed behavior, removed behavior, shared contracts, schema/configuration changes and mechanical moves. Inspect both sides of the diff. For fixes, distinguish the reported symptom from the rule that would prevent that class of failure.
+2. Locate entry points and authoritative owners through symbol/reference searches, route registrations, model relationships, event handlers and callers. Use language-server or AST tools where available and text searches otherwise; inspect dynamic registration and reflection where static tools cannot resolve them. Record search boundaries and unresolved edges.
+3. Follow the shared symbols to distinct callers and consumers. Group callers only when inspected evidence establishes equivalent policy and execution. A grep hit is a lead; absence from a text search is not proof of absence.
+4. Record each relevant path's expected outcome and the independent basis for it. Identify retained behavior and legitimate contrasting cases. Do not assume the issue's proposed mechanism or the new test's expected value defines the business rule.
 
-Read the complete diff and available requirements/discussion. Separate intended outcomes and preservation rules from proposed mechanisms and correctness claims. Index meaningful changes by behaviour, state ownership and shared contracts, including migrations, configuration, tests and UI where affected. Mark generated or mechanical material with its verification basis rather than treating it as uninspected semantic code or a new business flow.
+## Trace forward from inputs
 
-For a large PR or stack, identify the dependency order and shared seams before splitting the work. A flow can cross an API, service, model, worker and screen. Reviewing those files independently does not establish that their contracts agree. Keep dependent PRs in scope regardless of author; inspect tip against stack base where tractable, otherwise review in dependency order and finish with the integrated state.
+For each meaningful path, inspect the actual control and data flow:
 
-For each affected flow, identify its entry points, expected outcome, authoritative state and consumers. Track a shared component once, then check the assumptions its distinct callers impose. Do not silently treat inherited code as unrelated when the change relies on it. Stop expanding at demonstrated unchanged contracts, not merely at the diff boundary.
+`producer → transport/parsing → validation/authorization → rule selection → transformation → mutation/effect → consumer-visible outcome`
 
-## 2. Inspect the code and follow sources to sinks
+Record decisive source locations and the values crossing boundaries, including identity, units, time basis, version, scope and null/default semantics when relevant. Expand interfaces to the actual implementation used in this configuration. Inspect conditions that skip effects as well as executed effects.
 
-Read meaningful changed logic with surrounding control flow, actual callees, relevant models/schema and test assertions. Follow evidence instead of inferring behaviour from names, interfaces, comments or the PR description. Classify what remains unreviewed at the current gate; a file inventory is an index, not proof of inspection.
+Establish who assigns a decision input, who can change it, what fact it represents, and why the decision may rely on it. A consumer can implement its selected policy perfectly while the producer selects the wrong policy. Inspect copied or derived facts for their update and historical contracts.
 
-Build the relevant end-to-end chain from code:
+Trace errors, cancellation and deferred work where they affect the outcome. Inspect handoff payloads and execution context rather than assuming request state survives a queue, task or later session. Define success at the final relevant sink, not merely at an accepted HTTP response.
 
-```text
-entry / producer → validation and representation → transformation / decision
-→ state or handoff boundary → persisted result, external effect or user-visible output
-```
+## Trace backward from consequential sinks
 
-Inputs include user values, stored records, configuration, permissions, time and events where they select the affected behaviour. Establish who produces and can change them, what information is copied, derived, defaulted or discarded, and which values the final consumer actually reads. At consequential sinks, trace backward to check alternate supported writers and entry points. Check that shared enforcement genuinely covers them.
+Start with persisted records, exports, generated artifacts, messages, payments, authorization decisions or rendered state affected by the change. Find all applicable producers and the guards required before the effect. Compare paths that bypass the modified entry point or recreate its state later.
 
-Follow control as well as data: branches, early exits, missing values, errors, ordering and delayed work can skip a required effect or change its meaning. Locate the actual transaction, ownership and consistency boundaries. Inspect a guard's scope, inputs and lifetime, including whether its protection still applies when the dependent effect occurs. A lock or validation call is not enough without that relationship; absence of a preferred technique is not by itself a defect.
+Inspect repeated, competing and reversed operations where the operation's lifecycle supports them. Draw the read/decision/write and external-effect ordering; locate the mechanism that preserves identity and invariants across that ordering. A disabled button, transaction keyword or comment describing best effort is not proof of the desired contract. Conversely, do not invent exactly-once requirements: establish the obligation and supported trigger.
 
-Extend traces across supported lifecycle transitions that affect the obligation, such as edits, generation, retries, cancellation and recovery. Select combinations because the code or contract couples them, not by enumerating every possible combination. A documented recovery action must be reachable and able to complete the task under the conditions where it is offered; an explicit bound or rejection alone does not establish recovery.
+Follow retained records through later edits, deletion, regeneration and consumption when those transitions are relevant. Distinguish immutable historical meaning, live references, projections and caches. A query returning the correct shape does not establish that its facts belong to the correct time or owner.
 
-Use [Test quality](test-quality.md) throughout: inspect the oracle, setup, assertions and path actually exercised. When authorised execution is necessary, run an existing meaningful check with proof appropriate to the boundary. Never turn read code into a claimed runtime result, replace a forbidden service, or edit the behaviour under review to manufacture evidence.
+## Inspect the code within the current gate
 
-## 3. Assess design through the inspected behaviour
+Read changed logic with its surrounding branches, callees, schema and relevant assertions. Reconstruct the design that actually executes. Use the gate's specialist guide to assess its responsibilities, including shared seams. Do not relegate concurrency, downstream interpretation or historical meaning to a later gate when they determine whether the current model is valid.
 
-The design gate is grounded in code, not limited to diagrams or schema files. Reconstruct the model implemented by producers, representations, relationships, policy selection and consumers. Compare that model with the required outcome before evaluating general implementation quality.
+When a concern remains uncertain, state the supported condition, expected outcome and competing explanation. Search for the guard or contract that would disprove it. Straightforward inspected defects and sound paths need no formal hypothesis ceremony.
 
-Use [System design](system-design.md) to establish whether:
+Trace a proposed correction across affected callers and consumers before recommending it. Identify the smallest complete boundary and preservation constraints. Do not implement, insist on a framework for imagined uses, or narrow the correction to the first symptom when the same faulty rule remains active elsewhere.
 
-- identity, scope and cardinality can represent the required distinctions;
-- facts and policies have appropriate owners, with authoritative inputs reaching enforcement;
-- supported lifecycle changes preserve current and historical meaning;
-- invariants and failure boundaries hold across the affected writers and consumers;
-- growth, limits and recovery support the required operation without silently losing work or meaning.
+## Account for scope and proof
 
-These are questions about inspected responsibilities, not a demand for a preferred architecture. A local implementation may execute its algorithm perfectly while selecting the wrong rule, collapsing distinct facts, or relying on an owner that cannot uphold the contract. Those are design defects even when no new model or schema appears in the diff. Conversely, a different structure is only a preference unless a concrete failed responsibility is established.
+For every affected path record inspected evidence, a relevant blocker, or the precise unresolved/unreviewed portion. A single successful route does not close a family of distinct routes. Mark demonstrated stable boundaries and explain excluded paths. Attribute source evidence to the candidate; record environment and revision for executed proof.
 
-Complete relevant design investigation across the affected flows before leaving that gate, including when one blocker already exists. A design blocker stops progression to general implementation and UX review; it does not prohibit reading their code to establish the design's actual consequences. Preserve incidental findings without claiming those later layers have been reviewed. Continue through the parent skill's implementation and UX gates only when their prerequisites are met.
-
-## 4. Verify findings; use hypotheses for uncertainty
-
-An actionable technical finding needs two independent supports: an established obligation and a reachable implementation path that violates it. Proving that behaviour occurs does not establish that it is wrong. Derive expected behaviour from requirements and legitimate existing contracts; do not infer it from a preferred redesign, current tests or an assumed external workflow.
-
-For a clear inspected defect, document the trigger, causal path, consequence and strongest counterevidence directly. When uncertainty remains, state a falsifiable case: under which supported condition should which outcome occur, what might differ, and what guard or contract could refute that concern? Inspect the actual path and competing explanation. Retain supported, disproved or unresolved conclusions with their evidence and conditions; do not invent a hypothesis for every inspected line or sound path.
-
-An uncertainty about business meaning needs a product decision. An uncertainty about actual mechanics calls for further authorised source inspection or execution. Keep those separate. Unknown occurrence frequency limits impact estimates; it does not refute a demonstrated violation on supported input. Equally, a merely imaginable input is not a supported producer path or an approved performance requirement.
-
-Record source-established reasoning separately from execution observations. Unperformed essential runtime proof remains a readiness gap, even when source establishes a defect. Unsupported assumptions remain visible instead of being promoted to confirmed technical defects; an unresolved contract indispensable to the current gate still blocks progression under the parent skill. Recommend the smallest complete correction and preserve legitimate contrasting behaviour; review does not authorise implementation.
-
-## 5. Reconcile coverage and the integrated result
-
-Before leaving a gate, compare inspected flows with the complete change and actual affected dependencies. Account for alternate producers, required effects, shared invariants and downstream consumers. Mark obligations supported under stated conditions, contradicted, unresolved, or outside scope with a justified boundary. Mark dependent gates not reviewed where appropriate. Narrow evidence cannot close a broader contract, and resolving every generated hypothesis cannot close uninspected behaviour.
-
-For large changes, revisit the connections between separately reviewed parts: do they use the same identity and meaning, preserve each other's invariants, and agree about state transitions and failure outcomes? Combine changes as they will actually run. Locally correct parts can still form an incorrect system. This integration pass assesses the reached gate; it does not bypass a blocked prerequisite.
-
-If independent reviewers are authorised, give each the same candidate and raw context, a bounded flow or responsibility, its shared dependencies and the current gate. Require a handoff of established contracts, decisive source evidence, findings and gaps. One reviewer reconciles shared seams and the complete changed scope. Specialist backend/frontend/test inspection remains useful, but no layer's isolated approval proves an end-to-end flow.
-
-Keep a compact working map, using the repository's existing record format where available:
-
-```text
-Flow / responsibility; required outcome and basis; current gate
-Changed code and relied-on owners / callers / consumers
-Source-to-sink trace and decisive locations
-Design/implementation/UX assessment within the reached gate
-Findings, counterevidence and unresolved questions
-Coverage boundary; runtime evidence required / observed
-```
-
-Hypotheses can be linked to this record where useful; they are not its organising unit. Share settled evidence and reopen it only when relevant assumptions change. Report consequential findings and material gaps rather than reproducing the working map. No fixed hypothesis, file, finding or work-count quotas apply.
+Hand the source-backed inventory to the omission audit. Keep the audit's new paths and the finding verifier's rejected candidates visible. If evidence changes an owner or contract, invalidate affected conclusions and inspect their dependencies again. Close work based on supported coverage, not file-read counts, agreement, time spent or a generated list's completion.

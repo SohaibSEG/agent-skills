@@ -1,6 +1,6 @@
 # Backend review cookbook
 
-Use the applicable sections to trace changed behavior from entry point to durable effects. These are review steps and recommendation patterns, not authorization to edit code. Inspect existing evidence; run validation only when explicitly authorized and consistent with project rules. Record missing essential runtime proof as a readiness blocker. A causal design flaw remains blocking until addressed; unrelated architectural renovation needs separate authorization. PostgreSQL examples below are engine-specific; verify equivalent behavior for the actual database and version.
+Use the applicable sections to trace changed behavior from entry point to durable effects. These are review steps and recommendation patterns, not authorization to edit code. Inspect existing evidence; run validation only when authorized and consistent with project rules; recognize authorization already established in the session. Record missing essential runtime proof as a readiness blocker. A causal design flaw remains blocking until addressed; unrelated architectural renovation needs separate authorization. PostgreSQL examples below are engine-specific; verify equivalent behavior for the actual database and version.
 
 ## 1. Locate the operation and its invariant
 
