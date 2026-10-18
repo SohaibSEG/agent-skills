@@ -7,6 +7,12 @@ description: Review code changes, pull requests, or stacks for root-cause correc
 
 Review the intended outcome, trace the rule through its owners and consumers, and report defects with evidence. Use the checklists selectively; a small change does not require a system-wide audit.
 
+## Review effort and completion
+
+- Finish by coverage and evidence, not an arbitrary word count, finding quota, number of checks, or time allowance. Respect explicit user budgets; otherwise retain every distinct actionable finding within scope and identify any remaining coverage gaps.
+- Reuse one evolving map of changed claims, affected flows and evidence across review tracks. Do not retrace a settled contract merely to produce a separate backend, frontend or design narrative; revisit it when new evidence changes its assumptions.
+- Investigate unresolved hypotheses and their counterevidence. Once a hypothesis is disproved, retain that conclusion without repeatedly reopening it unless the source or relevant assumptions change.
+
 ## Review-only boundary
 
 - Do not edit source, tests, fixtures, snapshots, migrations, dependencies, or project configuration. Do not implement recommendations or create repair commits.
@@ -63,6 +69,8 @@ For any executed check, record candidate identity, command/scenario, environment
 ## 5. Report and stop
 
 Lead with findings ordered by impact. Use the repository's severity conventions when available; otherwise explain impact without inventing numerical precision.
+
+State shared scope and proof limits once. Group manifestations with the same cause and correction while preserving distinct consequences. Keep the report concise by removing repeated process narration, not findings or decisive evidence. Verify cited paths and lines before reporting.
 
 For each finding include:
 
