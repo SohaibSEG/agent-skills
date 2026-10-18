@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Cookbook"
+  short_description: "Review root causes, UI consistency and test quality"
+  default_prompt: "Use $review-cookbook to review this change and report evidence-backed findings without modifying code."

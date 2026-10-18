@@ -74,11 +74,28 @@ These are personal, host-level preferences; they do not modify any project repos
 | `pr-review-qa` | Review and test a PR in an isolated worktree across backend, UI, infrastructure, design, quality, and performance | Explicit | Personal |
 | `prototype` | Build a throwaway prototype that answers a design question | Explicit | Matt Pocock, customized |
 | `research` | Investigate a question using high-trust primary sources | Explicit | Matt Pocock, customized |
+| [`review-cookbook`](skills/review-cookbook/SKILL.md) | Review root causes, backend/data integrity, UI consistency and test quality; recommend refactorings without implementing them | Automatic | Personal, primary-source references |
 | `tdd` | Implement a requested change with a red-green-refactor loop | Explicit | Matt Pocock, customized |
 | `to-tickets` | Turn a plan into dependency-aware tracer-bullet tickets | Explicit | Matt Pocock, customized |
 | `wayfinder` | Resolve the decision map for work too large for one session | Explicit | Matt Pocock, customized |
 
 `setup-matt-pocock-skills` is intentionally not included. The adapted skills discover context at invocation time and do not require repository-local setup.
+
+## Review cookbook
+
+Install this review-only skill for Codex and Claude Code:
+
+```bash
+npx skills@latest add SohaibSEG/agent-skills --skill review-cookbook --global --agent codex --agent claude-code
+```
+
+Use `$review-cookbook review this branch against main` in Codex or `/review-cookbook review this branch against main` in Claude Code. It produces findings, correction recommendations and a validation assessment. It does **not** implement fixes, edit tests, provision infrastructure, publish reviews or change PR state.
+
+The short [entry point](skills/review-cookbook/SKILL.md) routes to actionable [backend](skills/review-cookbook/references/backend.md), [frontend](skills/review-cookbook/references/frontend.md), [test-quality](skills/review-cookbook/references/test-quality.md) and [refactoring](skills/review-cookbook/references/refactoring-patterns.md) references. The refactoring catalog includes 14 patterns, each with inspection steps, recommendation boundaries and preservation checks. Primary sources are linked beside the guidance; there are no private project case studies or external skill dependencies.
+
+This skill supplies review reasoning and can be used independently. `pr-review-qa` is a separate explicitly invoked workflow for isolated setup and runtime QA; installing or invoking the cookbook does not invoke it. Neither skill grants implementation authority.
+
+The shared `SKILL.md` format follows the [Agent Skills standard used by Claude Code](https://code.claude.com/docs/en/skills) and [Codex skill guidance](https://learn.chatgpt.com/docs/customization/overview#skills). Codex UI metadata is additive. The [skills CLI](https://github.com/vercel-labs/skills) supports selecting both agent targets; actual runtime review capabilities depend on the host's installed tools.
 
 ## Execution loop runtime
 
