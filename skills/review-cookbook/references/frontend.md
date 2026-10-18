@@ -2,7 +2,7 @@
 
 Review the interface as a complete task a person must finish. Apply the consuming project's design system, supported browsers, accessibility target, and evidence requirements. This is review-only: inspect, run authorized safe validation, and recommend corrections without editing source, tests, fixtures, or snapshots. The numbered actions operationalize the linked sources; the sources do not prescribe this cookbook's approval policy. Record untested states explicitly.
 
-For changes to the task itself, first use [User-story and journey review](user-journey.md). This reference then checks the interface that delivers that journey.
+Apply only the checks relevant to the current gate. During implementation review, inspect code and state contracts; defer journey, visual and interaction review until the UX gate. Within that gate, use [User-story and journey review](user-journey.md) before component conformance checks when the task itself changes. Reading this reference does not authorize progression past a blocked gate.
 
 ## Establish the comparison
 

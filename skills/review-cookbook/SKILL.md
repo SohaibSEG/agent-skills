@@ -5,11 +5,11 @@ description: Review code changes, pull requests, or stacks for root-cause correc
 
 # Review Cookbook
 
-Review the intended outcome, trace the rule through its owners and consumers, and report defects with evidence. Use the checklists selectively; a small change does not require a system-wide audit.
+Review the intended outcome, then pass through model/design, implementation and UX gates in that order. Trace the rule through its owners and consumers and report defects with evidence. A small change does not require a system-wide audit.
 
 ## Review effort and completion
 
-- Finish by coverage and evidence, not an arbitrary word count, finding quota, number of checks, or time allowance. Respect explicit user budgets; otherwise retain every distinct actionable finding within scope and identify any remaining coverage gaps.
+- Finish by coverage and evidence within the reached gate, not an arbitrary word count, finding quota, number of checks, or time allowance. Respect explicit user budgets; otherwise retain every distinct actionable finding within scope and identify any remaining coverage gaps. A blocked gate ends progression, not investigation of the other relevant obligations in that gate.
 - Reuse one evolving map of changed claims, affected flows and evidence across review tracks. Do not retrace a settled contract merely to produce a separate backend, frontend or design narrative; revisit it when new evidence changes its assumptions.
 - Investigate unresolved hypotheses and their counterevidence. Once a hypothesis is disproved, retain that conclusion without repeatedly reopening it unless the source or relevant assumptions change.
 
@@ -19,7 +19,7 @@ Review the intended outcome, trace the rule through its owners and consumers, an
 - Do not post comments, submit approvals, push, merge, deploy, change permissions, or modify shared services. Return the review to the user. Publication or implementation belongs to a separate explicitly authorized task.
 - Read repository instructions and inspect available tools. Use local files, Git and the host's available repository/browser tools; no specific connector, agent product, database, or cloud provider is required.
 - Run existing validation only when authorized, understood and safe for the selected environment. Check test scripts for writes and external effects. Writes by tests must be confined to permitted disposable resources. Do not provision services or reset data merely because this skill was invoked.
-- Missing essential runtime proof blocks readiness. Follow project rules for unavailable services; do not silently substitute mocks or a different database. Continue independent inspection and state the exact unverified claim.
+- Missing essential runtime proof blocks readiness. Follow project rules for unavailable services; do not silently substitute mocks or a different database. Continue independent inspection within the reached gate and state the exact unverified claim.
 
 ## 1. Establish the target and claim
 
@@ -37,24 +37,33 @@ Review the intended outcome, trace the rule through its owners and consumers, an
 4. Trace updates, cancellation, retry, concurrent actions and partial failure—not just creation and the happy path. Check wrappers, decorators and callbacks for hidden ordering or side effects.
 5. Try a counterexample and inspect counterevidence. Explain the faulty dependency, ownership or representation, the exposing input/change and its consequence. A code smell alone is not a blocker.
 
-## 3. Apply the relevant review tracks
+## 3. Review through sequential gates
 
-For changes to domain meaning, relationships, lifecycle, authority, module contracts, execution topology or scaling assumptions, read [System design](references/system-design.md) before the implementation-level tracks. Reconstruct the actual model and compare the proposed patch with the smallest complete correction. Return a concise decision brief grounded in code and counterexamples; a list of architecture smells is insufficient. Do not force this pass onto a narrow change that does not affect those assumptions.
+Establish the user's intended outcome and supported business rules before judging the model. Gates are review perspectives, not directory boundaries: inspect code, tests, screens and downstream consumers whenever needed to establish the current gate's claims. Reading a later-layer file as evidence does not mean that layer has been reviewed.
 
-For user-facing changes that alter task discovery, decisions, steps, recovery or completion, use [User-story and journey design](references/user-journey.md) before the component-level frontend checks. Assess the path from the user's starting situation to the verified outcome; do not equate fewer clicks with less effort.
+### Gate 1 — Model and system design
 
-Read only the references needed for the changed risks:
+Determine whether the implemented model can uphold the intended outcome: business meaning, authoritative owners, relationships/cardinality, invariants, lifecycle, historical meaning, failure boundaries and growth assumptions. Trace the affected writers and consumers; challenge supported combinations and inverse actions. An attractive schema or the author's stated design is not proof of the actual contract.
 
-| Change or question | Reference | Expected result |
-|---|---|---|
-| Domain model, ownership, lifecycle, cross-module behavior, architectural trade-offs | [System design](references/system-design.md) | Model/authority map, decisive counterexamples, alternatives and a defended recommendation |
-| Services, model, queries, migrations, security, background work | [Backend and data](references/backend.md) | Concrete contract, integrity and growth findings |
-| User goals, task flow, guidance, decisions, recovery and completion | [User-story and journey design](references/user-journey.md) | Actual path, evidenced friction, smallest correction and outcome-based task scenario |
-| Screens, controls, forms, styling, interaction states | [Frontend and usability](references/frontend.md) | Rendered task and design-pattern evidence |
-| Test changes, claimed validation, regression coverage | [Test quality](references/test-quality.md) | What the tests prove and what can still fail |
-| Wrong responsibility, primitive policy, tangled conditionals, duplication | [Refactoring patterns](references/refactoring-patterns.md) | Smallest complete correction to recommend, with guardrails |
+Use [System design](references/system-design.md) when those assumptions change. For a narrow change, establish which existing contracts remain unchanged with a proportionate check. Do not invent a redesign or audit unrelated architecture. Report relevant design blockers and the smallest complete correction boundary before proceeding to detailed implementation review.
 
-When delegation is available and authorized, give specialists the same target, invariant map and review-only boundary. Keep one reviewer responsible for contracts between backend, frontend and tests. Verify proposed findings; do not accept votes as evidence. Otherwise perform the applicable tracks sequentially.
+### Gate 2 — Implementation
+
+Once the model/design gate passes, inspect whether backend and frontend code consistently implement its contracts. Check alternate paths, authorization, transactions, audit, concurrency, dependencies, errors, state synchronization, bounded work and compatibility. Use [Backend and data](references/backend.md) and the applicable code/state checks in [Frontend and usability](references/frontend.md). Use [Refactoring patterns](references/refactoring-patterns.md) only to recommend a correction to an evidenced responsibility or representation defect.
+
+### Gate 3 — User journey and UX
+
+Once implementation passes, follow the actual route from the user's starting situation to the persisted outcome, including decisions, feedback, recovery and return visits. Use [User-story and journey design](references/user-journey.md), then the visual, interaction, accessibility and shared-pattern checks in [Frontend and usability](references/frontend.md). Inspect the rendered experience where the claim requires it; source inspection cannot establish visual conformance. If no user-facing behavior or contract is affected, record why this gate is not applicable.
+
+### Evidence and progression
+
+- Apply [Test quality](references/test-quality.md) **inside every gate**: independent expected behavior, meaningful assertions, relevant failure scenarios and proof appropriate to the claim. A passing test that encodes the wrong rule cannot clear the design gate.
+- Before judging a gate, identify its essential evidence from the changed risks. Pass only when its relevant obligations have been examined and no confirmed blocker or essential unresolved proof remains. A missing runtime check blocks the gate whose claim needs that check; do not automatically treat all unrun checks as design defects.
+- Record each gate as **passed within stated scope**, **blocked**, **not reviewed**, or **not applicable with reason**. A blocker stops progression to dependent gates. Complete the relevant investigation in the current gate; do not stop at the first finding or start a fix loop. Later gates remain not reviewed, never implicitly passed.
+- Inspect downstream effects as needed to verify a current-gate hypothesis. Preserve any incidental finding, but do not use it to claim coverage of a gate not reached. Ask only for unresolved product decisions; investigate technical uncertainty and counterevidence yourself within the authorized scope.
+- If later implementation or UX evidence invalidates an upstream assumption, reopen that gate and mark dependent conclusions affected. After separately authorized corrections, reassess affected gates against the new candidate; retain earlier evidence only where still applicable.
+
+When delegation is available and authorized, parallelize independent risks **within the current gate**, not dependent gates. Give reviewers the same target, raw requirements and review-only boundary; reconcile their independently established contracts and evidence. One reviewer owns cross-layer consequences. Verify findings rather than accepting votes. Without delegation, use the same gates sequentially.
 
 ## 4. Separate findings, recommendations and proof
 
@@ -70,12 +79,13 @@ For any executed check, record candidate identity, command/scenario, environment
 
 Lead with findings ordered by impact. Use the repository's severity conventions when available; otherwise explain impact without inventing numerical precision.
 
-State shared scope and proof limits once. Group manifestations with the same cause and correction while preserving distinct consequences. Keep the report concise by removing repeated process narration, not findings or decisive evidence. Verify cited paths and lines before reporting.
+State shared scope and proof limits once, including the gate reached and the status of every gate. Distinguish an evidenced absence of blockers from a layer not reviewed. Group manifestations with the same cause and correction while preserving distinct consequences. Keep the report concise by removing repeated process narration, not findings or decisive evidence. Verify cited paths and lines before reporting.
 
 For each finding include:
 
 ```text
 Title and class: technical / visual conformance / missing proof
+Gate and affected contract:
 Rule or reference:
 Trigger and affected outcome:
 Evidence: verified file/line and minimal code excerpt, or observed behavior
