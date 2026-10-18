@@ -93,7 +93,7 @@ Use `$review-cookbook review this branch against main` in Codex or `/review-cook
 
 Reviews proceed through system design, implementation, then user experience. Test quality is assessed within every gate. The review workflow builds a source-backed inventory, inspects affected flows, verifies candidate findings and independently audits omitted paths. It retains decisions and evidence so a rejected finding or uninspected consumer cannot silently disappear. A source blocker stops dependent gates while investigation continues within the blocked gate. Missing essential execution blocks readiness; source clearance is not runtime proof.
 
-**Experimental on this branch:** package checks and independent structural review pass. Fresh source-review experiments on established snapshots produced stronger rule-ownership, history and temporal-contract arguments, while still missing some consequential paths. Independent verification narrowed several claims and correction boundaries. These familiar source-only cases do not establish general superiority, runtime correctness or UX quality. The published stable version remains on `main`.
+**Validation status:** package checks and independent structural review pass. Fresh source-review experiments on established snapshots produced stronger rule-ownership, history and temporal-contract arguments, while still missing some consequential paths. Independent verification narrowed several claims and correction boundaries. These familiar source-only cases do not establish general superiority, runtime correctness or UX quality. Coverage improvements remain ongoing.
 
 The [entry point](skills/review-cookbook/SKILL.md) coordinates dedicated guides:
 
@@ -127,7 +127,7 @@ skills/review-cookbook/
 
 Use `$review-cookbook challenge the design of this change` in Codex or `/review-cookbook challenge the design of this change` in Claude Code. The parent reads the [bundled adversarial reviewer](skills/review-cookbook/reviewers/adversarial-design-review/SKILL.md), which distinguishes business purpose, operational rule and enforcement, traces a concrete counterexample and checks the strongest defense. It can conclude that no reframe is justified. Recommendations never authorize implementation.
 
-The addition remains experimental on this branch. Its [research and evaluation guidance](skills/review-cookbook/reviewers/adversarial-design-review/references/research-and-evaluation.md) separates primary-source influences from this package's synthesis. Default installation commands above use the stable branch; this experimental package is not yet promoted to `main`.
+The complete package is published on `main` and available through the installation commands above. Its [research and evaluation guidance](skills/review-cookbook/reviewers/adversarial-design-review/references/research-and-evaluation.md) separates primary-source influences from this package's synthesis; coverage improvements remain ongoing.
 
 ## Execution loop runtime
 
