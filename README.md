@@ -93,7 +93,7 @@ Use `$review-cookbook review this branch against main` in Codex or `/review-cook
 
 Reviews proceed through system design, implementation, then user experience. Test quality is assessed within every gate. The review workflow builds a source-backed inventory, inspects affected flows, verifies candidate findings and independently audits omitted paths. It retains decisions and evidence so a rejected finding or uninspected consumer cannot silently disappear. A source blocker stops dependent gates while investigation continues within the blocked gate. Missing essential execution blocks readiness; source clearance is not runtime proof.
 
-**Experimental on this branch:** the workflow has been rebuilt after earlier comparisons exposed inconsistent design detection and incomplete coverage. Packaging validation and source-review experiments are reported separately; a redesigned process is not a demonstrated accuracy improvement. The published stable version remains on `main` until promotion is explicitly justified and authorized.
+**Experimental on this branch:** the rebuilt workflow passed package checks and an independent structural review. Fresh discovery and blind omission-audit passes on three established source snapshots added useful consumer/lifecycle coverage and verified an additional downstream defect, but still missed some root-design arguments and excluded a relevant concurrency weakness. These repeated, source-only cases do not establish superiority or runtime/UX quality; all stopped at design blockers. The published stable version remains on `main`.
 
 The [entry point](skills/review-cookbook/SKILL.md) coordinates dedicated guides:
 
