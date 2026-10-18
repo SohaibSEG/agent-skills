@@ -2,6 +2,8 @@
 
 Review the interface as a complete task a person must finish. Apply the consuming project's design system, supported browsers, accessibility target, and evidence requirements. This is review-only: inspect, run authorized safe validation, and recommend corrections without editing source, tests, fixtures, or snapshots. The numbered actions operationalize the linked sources; the sources do not prescribe this cookbook's approval policy. Record untested states explicitly.
 
+For changes to the task itself, first use [User-story and journey review](user-journey.md). This reference then checks the interface that delivers that journey.
+
 ## Establish the comparison
 
 1. **Inventory applicable patterns before judging the change.** Find existing screens for the same interaction and their components, tokens, layouts, and form conventions. Map changed controls to established counterparts. Verify each counterpart serves the same purpose; superficial resemblance does not establish authority. Consistency should preserve familiar meanings and behavior. [NNGroup: usability heuristics](https://www.nngroup.com/articles/ten-usability-heuristics/)

@@ -1,6 +1,6 @@
 ---
 name: review-cookbook
-description: Review code changes, pull requests, or stacks for root-cause correctness, system design, backend and data integrity, UI consistency, and test quality. Use for evidence-backed findings and concrete design or refactoring recommendations, not implementation or delivery.
+description: Review code changes, pull requests, or stacks for root-cause correctness, system design, backend and data integrity, user journeys, UI consistency, and test quality. Use for evidence-backed findings and concrete design or refactoring recommendations, not implementation or delivery.
 ---
 
 # Review Cookbook
@@ -35,13 +35,16 @@ Review the intended outcome, trace the rule through its owners and consumers, an
 
 For changes to domain meaning, relationships, lifecycle, authority, module contracts, execution topology or scaling assumptions, read [System design](references/system-design.md) before the implementation-level tracks. Reconstruct the actual model and compare the proposed patch with the smallest complete correction. Return a concise decision brief grounded in code and counterexamples; a list of architecture smells is insufficient. Do not force this pass onto a narrow change that does not affect those assumptions.
 
+For user-facing changes that alter task discovery, decisions, steps, recovery or completion, use [User-story and journey design](references/user-journey.md) before the component-level frontend checks. Assess the path from the user's starting situation to the verified outcome; do not equate fewer clicks with less effort.
+
 Read only the references needed for the changed risks:
 
 | Change or question | Reference | Expected result |
 |---|---|---|
 | Domain model, ownership, lifecycle, cross-module behavior, architectural trade-offs | [System design](references/system-design.md) | Model/authority map, decisive counterexamples, alternatives and a defended recommendation |
 | Services, model, queries, migrations, security, background work | [Backend and data](references/backend.md) | Concrete contract, integrity and growth findings |
-| Screens, controls, forms, styling, user journeys | [Frontend and usability](references/frontend.md) | Rendered task and design-pattern evidence |
+| User goals, task flow, guidance, decisions, recovery and completion | [User-story and journey design](references/user-journey.md) | Actual path, evidenced friction, smallest correction and outcome-based task scenario |
+| Screens, controls, forms, styling, interaction states | [Frontend and usability](references/frontend.md) | Rendered task and design-pattern evidence |
 | Test changes, claimed validation, regression coverage | [Test quality](references/test-quality.md) | What the tests prove and what can still fail |
 | Wrong responsibility, primitive policy, tangled conditionals, duplication | [Refactoring patterns](references/refactoring-patterns.md) | Smallest complete correction to recommend, with guardrails |
 

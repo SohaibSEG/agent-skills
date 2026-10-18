@@ -1,4 +1,4 @@
 interface:
   display_name: "Review Cookbook"
-  short_description: "Review system design, root causes, UI and tests"
+  short_description: "Review design, user journeys, root causes and tests"
   default_prompt: "Use $review-cookbook to review this change and report evidence-backed findings without modifying code."
