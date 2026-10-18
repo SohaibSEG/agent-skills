@@ -28,7 +28,7 @@ Use the applicable sections to trace changed behavior from entry point to durabl
 1. Draw the interleaving for each read-decide-write sequence. Identify what another session can change between the decision and mutation, including rows that do not yet exist. Being inside a transaction alone does not prevent every anomaly.
 2. Inspect the actual isolation level and locking semantics. Recommend conditional writes, version checks, appropriate locks, constraints, or serializable execution according to the invariant. Rechecking affected-row counts must distinguish a lost race from success.
 3. **PostgreSQL:** account for statement snapshots under Read Committed, updated rows returned after lock waits, and whole-transaction retries after serialization failures. Inspect whether business decisions are recomputed after waiting or retrying. [PostgreSQL isolation](https://www.postgresql.org/docs/current/transaction-iso.html)
-4. Define a competing-session test with controlled ordering, committed final-state assertions, and rollback coverage. Include both winning orders where they matter. Missing real-engine evidence blocks a concurrency claim; sequential tests and mocked locks cannot establish it.
+4. Define a competing-session test with controlled ordering, committed final-state assertions, and rollback coverage. Include both winning orders where they matter. Missing real-engine evidence prevents treating concurrency correctness as verified and blocks readiness; source-review progression follows the parent skill. Sequential tests and mocked locks cannot establish concurrency correctness.
 
 ## 5. Examine retries and external effects
 

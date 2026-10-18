@@ -133,6 +133,6 @@ Source-design conclusion; missing essential runtime proof; overall disposition:
 
 Do not call a design sound merely because unit tests pass, use a familiar architecture name, or conceal uncertainty behind a numerical score. Conversely, do not block on an aesthetic architecture preference without a causal defect. If removing a root flaw requires broader work, retain the blocking finding and request a scope decision through the parent review; never start implementing.
 
-A source-consistent design is not by itself a readiness verdict. Apply the parent skill's evidence gate to changed behavior, including deterministic local behavior; the absence of a database or remote service does not make execution proof irrelevant.
+A source-consistent design is not by itself a readiness verdict. Apply the parent skill's readiness requirements and distinction between source-review progression and runtime proof to changed behavior, including deterministic local behavior; the absence of a database or remote service does not make execution proof irrelevant.
 
 The review is complete when the applicable design questions have evidence-backed answers or explicit gaps, recommendations preserve supported behavior, and the report distinguishes defects from uncertainties. This is not a claim that every architectural risk has been eliminated.
