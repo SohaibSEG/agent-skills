@@ -27,6 +27,18 @@ Execution permissions and artifact destination: [explicit boundary].
 
 Keep initial discovery independent. Share newly established source facts for integration afterward, preserving contradictory interpretations for investigation. Do not require a different model, paid service or tool; model diversity is an experiment, not proof of independence.
 
+## Challenge framing at the design gate
+
+Assign a framing challenger where the problem statement, model or relied-on contract needs independent scrutiny. This is a responsibility, not a compulsory extra agent on every change. Use the bundled [Adversarial design reviewer](../reviewers/adversarial-design-review/SKILL.md) for that role. Pass its exact local path to the reviewer and have it read the instructions directly; it is part of this package, not a separately installed dependency. Its responsibilities are:
+
+- Recover the required outcome and constraints from raw context and source, separating them from proposed mechanisms and motivating examples.
+- Identify the owner of each consequential rule and the input that actually selects behavior. Inspect its creators, editors and consumers.
+- Derive a supported counterexample that distinguishes the intended rule from an incidental dependency. Trace it to the consequential sink, then inspect the strongest defense.
+- Classify a justified challenge as problem/specification, design/contract or implementation. A valid inherited flaw cannot be excluded merely because its line is unchanged; establish whether the current outcome depends on it.
+- Recommend the smallest complete correction and explain any warranted reframe under the same requirements. Accept a sound design; do not demand novelty, abstraction or disagreement.
+
+Give this role raw source and discussion before peer findings. Send its evidence through the same finding verification as other candidates. Do not let a design challenge replace source coverage, code-quality, security, test or UX responsibilities. All reviewer instructions and shared references are contained in the parent `review-cookbook` directory.
+
 ## Verify on separate inputs
 
 Use [Verification](verification.md) for two distinct tasks:

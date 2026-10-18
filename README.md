@@ -93,7 +93,7 @@ Use `$review-cookbook review this branch against main` in Codex or `/review-cook
 
 Reviews proceed through system design, implementation, then user experience. Test quality is assessed within every gate. The review workflow builds a source-backed inventory, inspects affected flows, verifies candidate findings and independently audits omitted paths. It retains decisions and evidence so a rejected finding or uninspected consumer cannot silently disappear. A source blocker stops dependent gates while investigation continues within the blocked gate. Missing essential execution blocks readiness; source clearance is not runtime proof.
 
-**Experimental on this branch:** the rebuilt workflow passed package checks and an independent structural review. Fresh discovery and blind omission-audit passes on three established source snapshots added useful consumer/lifecycle coverage and verified an additional downstream defect, but still missed some root-design arguments and excluded a relevant concurrency weakness. These repeated, source-only cases do not establish superiority or runtime/UX quality; all stopped at design blockers. The published stable version remains on `main`.
+**Experimental on this branch:** package checks and independent structural review pass. Fresh source-review experiments on established snapshots produced stronger rule-ownership, history and temporal-contract arguments, while still missing some consequential paths. Independent verification narrowed several claims and correction boundaries. These familiar source-only cases do not establish general superiority, runtime correctness or UX quality. The published stable version remains on `main`.
 
 The [entry point](skills/review-cookbook/SKILL.md) coordinates dedicated guides:
 
@@ -103,11 +103,31 @@ The [entry point](skills/review-cookbook/SKILL.md) coordinates dedicated guides:
 - [Test quality](skills/review-cookbook/references/test-quality.md): independent oracles, production-path coverage, meaningful assertions, fault sensitivity and real-boundary proof.
 - [Inspection](skills/review-cookbook/references/investigation.md), [coordination](skills/review-cookbook/references/coordination.md), [verification](skills/review-cookbook/references/verification.md) and [working records](skills/review-cookbook/references/review-records.md): the workflow connecting the specialist guides and checking omissions.
 
-The guides are bundled with one installable skill, so Codex and Claude Code receive the same review procedure without missing sibling-skill dependencies. Independent reviewers are used when permitted and available; a sequential run must disclose its lack of independence. Effort follows evidence and relevant coverage, without fixed finding, word or work-count quotas. Primary sources remain linked beside their original review applications; [research provenance](skills/review-cookbook/references/review-system-research.md) separates documented industry practices from proposed adaptations, and [evaluation guidance](skills/review-cookbook/references/evaluation.md) explains how to test actual findings. The package contains no private project examples or benchmark answers.
+The reviewer and guides are bundled under one installable parent skill, so Codex and Claude Code receive the same review procedure without missing sibling-skill dependencies. Independent reviewers are used when permitted and available; a sequential run must disclose its lack of independence. Effort follows evidence and relevant coverage, without fixed finding, word or work-count quotas. Primary sources remain linked beside their original review applications; [research provenance](skills/review-cookbook/references/review-system-research.md) separates documented industry practices from proposed adaptations, and [evaluation guidance](skills/review-cookbook/references/evaluation.md) explains how to test actual findings. The package contains no private project examples or benchmark answers.
 
 This skill supplies review reasoning and can be used independently. `pr-review-qa` is a separate explicitly invoked workflow for isolated setup and runtime QA; installing or invoking the cookbook does not invoke it. Neither skill grants implementation authority.
 
 The shared `SKILL.md` format follows the [Agent Skills standard used by Claude Code](https://code.claude.com/docs/en/skills) and [Codex skill guidance](https://learn.chatgpt.com/docs/customization/overview#skills). Codex UI metadata is additive. The [skills CLI](https://github.com/vercel-labs/skills) supports selecting both agent targets; actual runtime review capabilities depend on the host's installed tools.
+
+## One review package
+
+Install and invoke **`review-cookbook`**. Its parent `SKILL.md` routes to the bundled reviewer and specialist references; do not install the reviewer separately.
+
+```text
+skills/review-cookbook/
+├── SKILL.md                        # Parent: scope, gates and coordination
+├── agents/openai.yaml
+├── reviewers/
+│   └── adversarial-design-review/
+│       ├── SKILL.md                # Independent problem/solution challenge
+│       └── references/            # Challenge operations and research
+└── references/                    # System/code design, backend, tests, UX,
+                                   # refactoring, inspection and verification
+```
+
+Use `$review-cookbook challenge the design of this change` in Codex or `/review-cookbook challenge the design of this change` in Claude Code. The parent reads the [bundled adversarial reviewer](skills/review-cookbook/reviewers/adversarial-design-review/SKILL.md), which distinguishes business purpose, operational rule and enforcement, traces a concrete counterexample and checks the strongest defense. It can conclude that no reframe is justified. Recommendations never authorize implementation.
+
+The addition remains experimental on this branch. Its [research and evaluation guidance](skills/review-cookbook/reviewers/adversarial-design-review/references/research-and-evaluation.md) separates primary-source influences from this package's synthesis. Default installation commands above use the stable branch; this experimental package is not yet promoted to `main`.
 
 ## Execution loop runtime
 
