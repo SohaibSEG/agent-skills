@@ -5,7 +5,7 @@ Use the complete candidate diff and raw context. Keep one evolving source-backed
 ## Establish the affected behavior
 
 1. Classify changed behavior, removed behavior, shared contracts, schema/configuration changes and mechanical moves. Inspect both sides of the diff. For fixes, distinguish the reported symptom from the rule that would prevent that class of failure.
-2. Locate entry points and authoritative owners through symbol/reference searches, route registrations, model relationships, event handlers and callers. Use language-server or AST tools where available and text searches otherwise; inspect dynamic registration and reflection where static tools cannot resolve them. Record search boundaries and unresolved edges.
+2. Locate entry points and authoritative owners through symbol/reference searches, route registrations, model relationships, event handlers and callers. For cross-module/shared-contract changes or unresolved edges, use [Code discovery](code-discovery.md): choose symbol, structural, semantic or data-flow queries for the relationship, then bridge dynamic and serialized boundaries explicitly. Record search boundaries and unresolved edges.
 3. Follow the shared symbols to distinct callers and consumers. Group callers only when inspected evidence establishes equivalent policy and execution. A grep hit is a lead; absence from a text search is not proof of absence.
 4. Record each relevant path's expected outcome and the independent basis for it. Identify retained behavior and legitimate contrasting cases. Do not assume the issue's proposed mechanism or the new test's expected value defines the business rule.
 

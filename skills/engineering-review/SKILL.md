@@ -13,7 +13,7 @@ Freeze destination/base, candidate revision and complete stack scope, regardless
 
 Read repository instructions, the complete diff, issues, PR body and public discussion. Distinguish required outcomes, observations, proposed mechanisms and correctness claims. State the outcome to achieve and behavior to preserve; mark missing context. Do not let the proposed implementation define the rule.
 
-Use [Inspection](references/investigation.md) to map real producers, decision owners, transformations and consumers. Follow inputs forward and consequential sinks backward. Keep one evolving external record using [Review records](references/review-records.md); the map indexes inspected evidence rather than certifying coverage.
+Use [Inspection](references/investigation.md) to map real producers, decision owners, transformations and consumers. Follow inputs forward and consequential sinks backward. For shared contracts or unclear relationships, use [Code discovery](references/code-discovery.md) to select symbol navigation, structural search and boundary tracing rather than relying on repeated keyword searches. Keep one evolving external record using [Review records](references/review-records.md); the map indexes inspected evidence rather than certifying coverage.
 
 ## Route the review
 
