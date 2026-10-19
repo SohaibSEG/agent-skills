@@ -30,7 +30,7 @@ Load the roles relevant to the change and current gate. Roles are responsibiliti
 | Gate closure | [Finding verification](reviewers/review-finding-verification/SKILL.md) | Does each candidate survive source checking and its strongest defense? |
 | Gate closure | [Review coverage](reviewers/review-coverage-audit/SKILL.md) | Which consequential paths or seams did discovery overlook? |
 
-For substantial or cross-boundary work, use independent discovery and verification when delegation is available and authorized; this skill requests it under those conditions. Read [Coordination](references/coordination.md) before dispatch. Give fresh reviewers the contract, role path, frozen source/raw context, specific responsibility and external output location. If independent contexts are unavailable, disclose sequential review.
+For substantial or cross-boundary work, use independent discovery and verification when delegation is available and authorized; this skill requests it under those conditions. Read [Coordination](references/coordination.md) before dispatch. Delegate distinct questions: problem framing, focused source inspection, consumer-first omission checks and candidate verification as warranted. Avoid duplicate whole-change reviews; a small change may need only discovery and an independent checker. Give fresh reviewers the contract, relevant role, frozen source/raw context, concrete question/source entry points and external output location. If independent contexts are unavailable, disclose sequential review.
 
 Apply gate decisions from the shared contract. Read downstream code/screens where needed to establish an upstream consequence; that does not clear the later gate. Retain incidental later-layer findings without claiming that layer is reviewed.
 
