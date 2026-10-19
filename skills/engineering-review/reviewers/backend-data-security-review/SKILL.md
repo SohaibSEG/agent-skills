@@ -11,4 +11,6 @@ Use at the implementation gate for server, data, security and operational bounda
 
 Use [Inspection](../../references/investigation.md) when building or extending the source map, including backward traces to alternate writers. Apply [Backend](../../references/backend.md) to relevant alternate writers, authorization/tenancy, schema/migrations, transactions, audit, retries, external effects, query growth and dependency exposure. Inspect changed configuration, secret boundaries, release ordering and resource budgets without executing plans.
 
+For relevant boundary contrasts, use [identity without authority](../../references/worked-examples.md#identity-without-authority) or [check then act](../../references/worked-examples.md#check-then-act).
+
 Return entry-to-effect traces, concrete invariant violations, defended boundaries and required real-service proof. For a model/authority defect, send the evidence back to system design rather than treating it as a local guard omission.

@@ -54,6 +54,8 @@ Return the required operational rule, the mechanism that currently selects it, t
 
 Send candidates to the parent's [finding verifier](../review-finding-verification/SKILL.md). This role does not certify structural completeness, code quality, test quality or UX; those have separate owners.
 
+For concrete contrasts, use [presentation as policy](../../references/worked-examples.md#presentation-as-policy) or [units erased](../../references/worked-examples.md#units-erased) when that mechanism is relevant. A resemblance starts inspection; it does not establish a defect.
+
 ## Maintainer references
 
 [Research and evaluation](references/research-and-evaluation.md) explains the primary-source influences, limits of the method and how to measure finding quality. It is not required reading for every review. This reviewer is bundled beneath the parent `engineering-review` skill. The parent loads these instructions directly; no separate installation, vendor API or particular model is required.

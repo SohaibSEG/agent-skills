@@ -17,7 +17,7 @@ Use [Inspection](references/investigation.md) to map real producers, decision ow
 
 ## Route the review
 
-Load the roles relevant to the change and current gate. Roles are responsibilities, not a required number of agents. Each role points to its authoritative guide; read only relevant sections. Do not load all references or rediscover settled evidence at each gate.
+Load the roles relevant to the change and current gate. Roles are responsibilities, not a required number of agents. Each role points to its authoritative guide; read only relevant sections. Do not load all references or rediscover settled evidence at each gate. Use the relevant [worked example](references/worked-examples.md) to calibrate a review move; transfer its causal question and legitimate contrast, not its domain or presumed verdict.
 
 | Gate / task | Reviewer | Distinct question |
 |---|---|---|

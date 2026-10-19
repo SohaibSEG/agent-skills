@@ -11,4 +11,6 @@ Use within every reached gate. Apply [Test quality](../../references/test-qualit
 
 Trace the independent oracle, production decision, substitutions, fixture realism and consequential assertions. Assess supplied execution identity/results; do not run tests or create fault experiments.
 
+Use [circular oracle](../../references/worked-examples.md#circular-oracle) when distinguishing policy evidence from delegation evidence.
+
 Return each unsupported guarantee, the test design that fails to establish it, a precise improvement and missing QA proof. A green result cannot defend a path or state the test never exercises.

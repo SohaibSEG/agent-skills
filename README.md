@@ -102,7 +102,7 @@ Invoke `$engineering-review review this PR` in Codex or `/engineering-review rev
 | [Finding verification](skills/engineering-review/reviewers/review-finding-verification/SKILL.md) | Accept, narrow or reject candidate findings using source and counterevidence. |
 | [Review coverage](skills/engineering-review/reviewers/review-coverage-audit/SKILL.md) | Independently inspect omitted paths and integration seams. |
 
-`SKILL.md` owns the workflow, `references/review-contract.md` owns shared policy, and `reviewers/<role>/SKILL.md` selects only its relevant guidance. Source guides and primary-source research remain in the same folder. No child registration or additional skill installation is needed. Independent agents are used where available and warranted; role names do not mandate eight agents or any work quota.
+`SKILL.md` owns the workflow, `references/review-contract.md` owns shared policy, and `reviewers/<role>/SKILL.md` selects only its relevant guidance. Source guides and primary-source research remain in the same folder. The [worked examples](skills/engineering-review/references/worked-examples.md) illustrate common anti-patterns with supported failure cases, correction boundaries and legitimate exceptions. They are selected by relevance rather than loaded as a universal checklist. No child registration or additional skill installation is needed. Independent agents are used where available and warranted; role names do not mandate eight agents or any work quota.
 
 QA remains the separate, explicitly invoked `pr-review-qa` process. Installing or invoking Engineering Review does not invoke QA or grant infrastructure, test execution or implementation authority.
 
