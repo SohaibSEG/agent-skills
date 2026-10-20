@@ -1,16 +1,38 @@
-# Frontend review actions
+---
+name: ui-ux-review
+description: Review rendered interface states, visual consistency, responsive layout, forms and accessibility using source and supplied screenshots or interaction evidence.
+---
 
-Use source and existing rendered evidence to inspect component conformance, state, CSS and accessibility. Interaction scenarios below define evidence to assess or request from separate QA, not actions to execute.
+# UI, UX and Accessibility Review
 
-Routing: implementation uses checks 4–7 for source/state contracts and the browser trust section; experience uses checks 1–10 for supplied rendered/interaction evidence. Reuse inspected source instead of repeating the implementation pass. Apply only the checks relevant to the current gate. During implementation review, inspect code and state contracts; defer journey, visual and interaction review until the UX gate. Within that gate, use [User-story and journey review](user-journey.md) before component conformance checks when the task itself changes. Reading this reference does not authorize progression past a blocked gate.
+Read the [shared review contract](../../references/review-contract.md). Inherit the
+parent's frozen target, assigned gate and evidence scope. Record loaded guides,
+inspected paths and open proof requirements in the shared coverage record.
+
+Use the procedure below at the experience gate and
+[QA evidence handoff](../../references/qa-evidence.md) before assessing evidence.
+Compare applicable established patterns under matching viewport, data, theme and
+state. Include validation, loading, failure and denied states where relevant.
+Return reproducible observations with reference pattern, artifact identity and
+source location when known. Separate observed defects from predictions. Screenshots
+cannot prove keyboard completion, persistence or real-user understanding; request
+those observations from authorized QA. Do not execute browser flows in this role.
+
+Use source and supplied rendered/interaction evidence at the experience gate.
+[User journeys](../user-journey-review/SKILL.md) owns the task path; [Frontend engineering](../frontend-engineering-review/SKILL.md)
+owns state/transport implementation. Reuse its state map rather than repeating
+source inspection. Read the [QA evidence handoff](../../references/qa-evidence.md) for missing
+screenshots, recordings, keyboard or persistence evidence. Reviewers do not execute
+browser flows. Do not progress past a blocked prerequisite gate.
 
 ## Establish the comparison
+
 
 1. **Inventory applicable patterns before judging the change.** Find existing screens for the same interaction and their components, tokens, layouts, and form conventions. Map changed controls to established counterparts. Verify each counterpart serves the same purpose; superficial resemblance does not establish authority. Consistency should preserve familiar meanings and behavior. [NNGroup: usability heuristics](https://www.nngroup.com/articles/ten-usability-heuristics/)
 
 2. **Compare rendered interfaces, not just component names.** Use matching data, viewport, theme, and interaction state to compare the changed screen with the applicable pattern. Examine spacing, typography, density, alignment, action placement, labels, icons, and state styling. A demonstrated inconsistency against an established applicable pattern is a blocker under this cookbook even when the feature functions. Cite the reference screen and exact discrepancy; check for an approved intentional exception. Personal taste or an unsupported redesign preference is not a finding.
 
-For the end-to-end path, action hierarchy, disclosure and recovery decisions, use [User journeys](user-journey.md). The checks below inspect their concrete UI/state implementation.
+For the end-to-end path, action hierarchy, disclosure and recovery decisions, use [User journeys](../user-journey-review/SKILL.md). The checks below inspect their concrete UI/state implementation.
 
 ## Inspect information and state
 
@@ -33,9 +55,3 @@ For the end-to-end path, action hierarchy, disclosure and recovery decisions, us
 9. **Check feedback without relying on sight or color alone.** Verify that status messages such as save completion and result counts are exposed to assistive technology without unnecessarily moving focus. Distinguish these messages from general content updates. Check that errors, selection, and status are distinguishable through text, shape, or another visual cue as appropriate. [W3C: Status Messages](https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html), [W3C: Use of Color](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html)
 
 10. **Report a reproducible correction.** Include the state, steps, expected pattern or requirement, actual result, and supporting visual evidence. For a refactor, name the existing component or boundary to reuse, what responsibility moves, and what behavior must remain unchanged. Inspect affected consumers and cite the available visual evidence; request missing states from separate QA. A screenshot demonstrates appearance; it does not prove persistence, keyboard behavior, or the complete task succeeded.
-
-## Inspect browser trust boundaries during implementation review
-
-- Trace URL parameters, stored values, server responses and message payloads into HTML/DOM rendering, script execution and navigation. Inspect the actual sink and context-specific escaping or sanitization; framework defaults do not protect escape hatches. Show a supported untrusted producer and affected sink before alleging an exploit. [OWASP: DOM-based XSS prevention](https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html)
-- Inspect cross-window messages for origin, sender and payload validation, and changed browser persistence for sensitive data exposure and stale authority. Client-side state is not authorization. Follow protected operations through the server boundary using the applicable [backend authorization checks](backend.md#2-follow-authorization-through-reads-and-writes). [OWASP: HTML5 security](https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html)
-- Inspect destinations derived from untrusted input, including redirect targets and link protocols. Establish the permitted destination contract and reachable consequence. Separate an unsafe navigation or data exposure path from an ordinary external link; do not demand blanket restrictions unsupported by the product.

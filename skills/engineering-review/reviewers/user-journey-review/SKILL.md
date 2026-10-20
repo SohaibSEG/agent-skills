@@ -1,6 +1,25 @@
-# User-story and journey review
+---
+name: user-journey-review
+description: Review whether an intended user can discover, understand, complete and recover a task, including prerequisites, handoffs and durable outcomes.
+---
 
-Use when a change introduces or alters how a person discovers, understands, completes or recovers a task. Review the journey before judging individual controls. Trace journeys in source and existing research/rendered evidence; proposed participant or browser exercises are QA handoff requirements, not actions to execute. This reference produces findings and design recommendations only; it does not authorize implementation, recruiting participants, analytics instrumentation or changes to real records. Use [Frontend](frontend.md) for component conformance, rendered states, CSS and accessibility mechanics; use [System design: authority and relationships](system-design.md#reconstruct-authority-identity-and-relationships-from-source) for the underlying state and authority contracts.
+# User Journey Review
+
+Read the [shared review contract](../../references/review-contract.md). Inherit the
+parent's frozen target, assigned gate and evidence scope. Record loaded guides,
+inspected paths and open proof requirements in the shared coverage record.
+
+Use the procedure below at the experience gate and
+[QA evidence handoff](../../references/qa-evidence.md) for observation requirements.
+Use source and supplied research/interaction evidence. Trace the normal entry,
+decisions, recovery and returning-user path to a verified outcome. Distinguish
+observed friction from predicted risk and agent task completion from user research.
+Return actor/context, consequential task gap, strongest defense and the smallest
+journey correction. UI/UX Review owns concrete visual/accessibility mechanics.
+When evidence is missing, request the distinguishing scenario from separate QA;
+do not launch a browser or infer usability from screenshots alone.
+
+Use when a change introduces or alters how a person discovers, understands, completes or recovers a task. Review the journey before judging individual controls. Trace journeys in source and existing research/rendered evidence; proposed participant or browser exercises are QA handoff requirements, not actions to execute. This reference produces findings and design recommendations only; it does not authorize implementation, recruiting participants, analytics instrumentation or changes to real records. Use [UI/UX](../ui-ux-review/SKILL.md) for component conformance, rendered states, CSS and accessibility mechanics; use [System design: authority and relationships](../system-design-review/SKILL.md#reconstruct-authority-identity-and-relationships-from-source) for the underlying state and authority contracts.
 
 The question is: **can the intended person get from their starting situation to a verified outcome, with understandable choices and no unnecessary work?** A working form and a successful request are intermediate events, not necessarily the person's goal. The guidance below translates primary author material into review actions; it does not prescribe a particular organization's visual design system. These are original review procedures, not reproductions of the cited books or a claim to have read them in full.
 
@@ -108,4 +127,4 @@ Sources: [Marieke McCloskey: Task Scenarios for Usability Testing](https://www.n
 
 ## Return journey-specific evidence
 
-Add the actor, starting knowledge, actual path and friction point to the shared [finding record](review-records.md). Distinguish observed failure, source-supported behavior and predicted usability risk. Include the smallest journey correction, preserved behavior and task scenario that would distinguish improvement from cosmetic change. Do not duplicate the parent’s report or gate policy.
+Add the actor, starting knowledge, actual path and friction point to the shared [finding record](../../references/review-records.md). Distinguish observed failure, source-supported behavior and predicted usability risk. Include the smallest journey correction, preserved behavior and task scenario that would distinguish improvement from cosmetic change. Do not duplicate the parent’s report or gate policy.
