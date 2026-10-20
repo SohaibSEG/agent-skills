@@ -14,14 +14,14 @@ Record base/candidate identities, stack dependencies, raw context sources and mi
 
 Link source searches to inspected results; do not count files or tokens as coverage. Give shared seams an owner. Separate an unknown business rule from unavailable runtime evidence. A blocked dependent gate is not a design exclusion.
 
-## Specialist coverage and loaded guidance
+## Specialist coverage and loaded skills
 
-| Role / gate | Applicability and reason | Role/guide paths and sections actually read | Claim and inspected paths | Evidence / QA request | Status and remaining gap |
+| Role / gate | Applicability and reason | Skill/supporting-method paths and sections actually read | Claim and inspected paths | Evidence / QA request | Status and remaining gap |
 |---|---|---|---|---|---|
 | Named responsibility and owner | Applicable / not applicable / deferred by prerequisite | Record actual reads, including valid retained coverage identity | Source-backed scope and boundaries | Source trace, artifact or request ID | Pending / inspected / blocked / complete within stated scope |
 
 Use one compact record; a role name or successful file read is not proof of review.
-At gate closure check that applicable guides were loaded and consequential paths
+At gate closure check that applicable skill procedures were read and consequential paths
 were inspected. Do not clear a role with essential unanswered evidence requests.
 Retained review evidence keeps its original identity and an applicability rationale.
 Record [QA evidence requests and returns](qa-evidence.md) here or link the caller's

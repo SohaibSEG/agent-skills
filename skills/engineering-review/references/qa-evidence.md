@@ -6,6 +6,9 @@ screenshot capture or database experiments when authorized. Selecting a speciali
 or requesting missing evidence does not itself authorize execution. In Carli, the
 Carli coordinator owns that phase and its isolated environment skill owns setup.
 
+You may plan downstream evidence while a prerequisite gate is blocked; label that
+assessment deferred. Planning or collecting evidence does not clear the later gate.
+
 For each material proof gap, record a small evidence request in the existing ledger:
 
 | Field | Needed content |
