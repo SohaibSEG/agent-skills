@@ -17,15 +17,18 @@ Use [Inspection](references/investigation.md) to map real producers, decision ow
 
 ## Route the review
 
-Load the roles relevant to the change and current gate. Roles are responsibilities, not a required number of agents. Each role points to its authoritative guide; read only relevant sections. Do not load all references or rediscover settled evidence at each gate. Use the relevant [worked example](references/worked-examples.md) to calibrate a review move; transfer its causal question and legitimate contrast, not its domain or presumed verdict.
+Load the roles relevant to the change and current gate. Roles are responsibilities, not a required number of agents. Each specialist SKILL.md contains its authoritative review procedure and references; read its applicable sections. Do not load all references or rediscover settled evidence at each gate. Use the relevant [worked example](references/worked-examples.md) to calibrate a review move; transfer its causal question and legitimate contrast, not its domain or presumed verdict.
 
 | Gate / task | Reviewer | Distinct question |
 |---|---|---|
 | Design | [Problem framing](reviewers/problem-framing-review/SKILL.md) | Are we solving the underlying problem with the right rule and mechanism? |
 | Design | [System design](reviewers/system-design-review/SKILL.md) | Do model, identity, lifecycle and consistency contracts support that rule? |
 | Implementation | [Code design](reviewers/code-design-review/SKILL.md) | Are responsibilities, interfaces, reuse and control flow sound? |
-| Implementation | [Backend/data/security](reviewers/backend-data-security-review/SKILL.md) | Do authorization, storage, migrations, transactions and effects preserve the contract? |
-| Implementation → experience | [Frontend/UX](reviewers/frontend-ux-review/SKILL.md) | Does frontend state behave correctly, and can users understand and complete the task? |
+| Implementation | [Backend/data/security](reviewers/backend-data-security-review/SKILL.md) | Do use-case authorization, orchestration, transactions, audit and external effects preserve the contract? |
+| Design → implementation | [Database](reviewers/database-review/SKILL.md) | Do schema dependencies, constraints, access paths, growth and migration history preserve the data contract? |
+| Implementation | [Frontend engineering](reviewers/frontend-engineering-review/SKILL.md) | Are state, transport, async behavior, components and browser trust boundaries correct? |
+| Experience | [User journey](reviewers/user-journey-review/SKILL.md) | Can the intended person discover, complete and recover the task with a verifiable outcome? |
+| Experience | [UI/UX and accessibility](reviewers/ui-ux-review/SKILL.md) | Do rendered states follow applicable patterns and support visual, responsive and accessible interaction? |
 | Every gate | [Test quality](reviewers/test-quality-review/SKILL.md) | Can the tests and supplied evidence detect violations of the claimed rule? |
 | Gate closure | [Finding verification](reviewers/review-finding-verification/SKILL.md) | Does each candidate survive source checking and its strongest defense? |
 | Gate closure | [Review coverage](reviewers/review-coverage-audit/SKILL.md) | Which consequential paths or seams did discovery overlook? |
@@ -33,6 +36,28 @@ Load the roles relevant to the change and current gate. Roles are responsibiliti
 For substantial or cross-boundary work, use independent discovery and verification when delegation is available and authorized; this skill requests it under those conditions. Read [Coordination](references/coordination.md) before dispatch. Delegate distinct questions: problem framing, focused source inspection, consumer-first omission checks and candidate verification as warranted. Avoid duplicate whole-change reviews; a small change may need only discovery and an independent checker. Give fresh reviewers the contract, relevant role, frozen source/raw context, concrete question/source entry points and external output location. If independent contexts are unavailable, disclose sequential review.
 
 Apply gate decisions from the shared contract. Read downstream code/screens where needed to establish an upstream consequence; that does not clear the later gate. Retain incidental later-layer findings without claiming that layer is reviewed.
+
+## Make specialist coverage explicit
+
+At each reached gate, route from the changed behavior and its affected consumers,
+not only file extensions. Schema, query/access-pattern, retention or transaction
+changes require Database Review; frontend behavior requires Frontend Engineering;
+changed task paths require User Journey; changed rendered controls/states require
+UI/UX. Problem framing and system design resolve material rule/model decisions;
+test quality follows the claims in every reached gate. Mark other roles not
+applicable with a scope reason. Roles are responsibilities, not an agent quota.
+
+For each applicable role, the assigned reviewer must read its SKILL.md procedure
+and any linked methods needed before claiming coverage. Record the loaded paths,
+source/claim inspected, evidence and unresolved obligations using
+[Review records](references/review-records.md). Loading only this parent or a role
+label is insufficient; reading files alone also does not establish coverage.
+An applicable role with unread skill procedures or uninspected paths stays pending.
+A blocked prerequisite defers dependent work without marking it inapplicable.
+
+For missing rendered, interaction, database or performance proof, use the structured
+[QA evidence handoff](references/qa-evidence.md). Separate authorized validation
+collects it; the specialist then assesses it before closing the affected obligation.
 
 ## Verify and close
 

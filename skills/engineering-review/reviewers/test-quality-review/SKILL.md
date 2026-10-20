@@ -7,10 +7,46 @@ description: Review tests, fixtures, assertions and submitted execution evidence
 
 Read the [shared review contract](../../references/review-contract.md) once. Inherit the parent’s frozen target, assigned gate and evidence scope.
 
-Use within every reached gate. Apply [Test quality](../../references/test-quality.md) to the claim being assessed, rather than reviewing test volume indiscriminately.
+Use within every reached gate. Use the procedure below for the claim being assessed, rather than reviewing test volume indiscriminately.
 
 Trace the independent oracle, production decision, substitutions, fixture realism and consequential assertions. Assess supplied execution identity/results; do not run tests or create fault experiments.
 
 Use [circular oracle](../../references/worked-examples.md#circular-oracle) when distinguishing policy evidence from delegation evidence.
 
 Return each unsupported guarantee, the test design that fails to establish it, a precise improvement and missing QA proof. A green result cannot defend a path or state the test never exercises.
+
+Judge tests by the defects they can expose and the guarantees they establish. Use the project’s test/infrastructure policies to assess submitted evidence. Recommend improvements; this guide does not execute tests, demand more tests indiscriminately or ban doubles.
+
+## Establish the claimed behavior
+
+1. **Name the guarantee before reading the assertions.** Describe the precondition, action, and observable result. For a fix, state the old failure and the corrected result. Map each material claim to a test or explicit manual check, choosing scope by what must interact to demonstrate it. A function call being executed is different from its result being verified. [Software Engineering at Google: Testing Overview](https://abseil.io/resources/swe-book/html/ch11.html)
+
+2. **Find an independent oracle.** Trace each expected value to a requirement, explicit example, documented invariant, or separately reasoned calculation. Flag expected results computed through the production function being tested or a copied version of its algorithm. For transformations, use small hand-checkable cases and relevant invariants; ensure an invariant is strong enough to distinguish incorrect outputs. Tests that restate implementation structure can fail during harmless refactoring while accepting the same defect as production. [Google Testing Blog: Change-Detector Tests](https://testing.googleblog.com/2015/01/testing-on-toilet-change-detector-tests.html)
+
+3. **Inspect assertions for the result that matters.** Match assertion strength to the claim: exact affected record, persisted values, ownership, contractual ordering, emitted payload, or observable denial. A success status or non-null result cannot establish a correct mutation. For rejection, look for unchanged protected state; for idempotency, one resulting effect after repetition. Check for independent reads of persisted state when the claim includes commit behavior; inspecting an in-memory object alone cannot prove persistence. These are applications of behavior-focused testing. [Software Engineering at Google: Unit Testing](https://abseil.io/resources/swe-book/html/ch12.html)
+
+## Check the exercise path
+
+4. **Locate every substitution.** List patched functions, stubs, fakes, and mock expectations between the test entry point and asserted behavior. Confirm the production decision under review still executes. A test that replaces that decision and asserts its configured return does not prove the decision works. Doubles can isolate unavailable or costly boundaries and inject failures; interaction assertions are useful when the interaction itself is contractual. Require appropriate integration evidence for any real boundary the doubles omit. [Software Engineering at Google: Test Doubles](https://abseil.io/resources/swe-book/html/ch13.html)
+
+5. **Check that fixtures expose the conditions that make the defect possible.** Read builders and defaults. Verify decisive role, ownership, status, timestamps, limits, and ordering are visible in the test, even when shared setup supplies irrelevant details. Look for contrasting records that expose overbroad queries and boundary values that separate competing interpretations. Recommend specific missing cases. Setup should reveal why the outcome follows; shared fixtures are useful when their relevant assumptions remain clear. [Software Engineering at Google: Unit Testing](https://abseil.io/resources/swe-book/html/ch12.html)
+
+6. **Inspect UI tests at the user-visible boundary.** Check that the test renders the real component or flow, performs the intended interaction, and asserts the resulting DOM behavior. Avoid using private component state as the sole proof. Inspect whether a mock bypasses the very form, request handling, or rendering change being reviewed. [Testing Library: Guiding Principles](https://testing-library.com/docs/guiding-principles/)
+
+   Prefer queries by role and accessible name or label where they represent how the control is found. Use other selectors when justified; selecting a DOM node does not by itself prove accessibility. Choose synchronous, asynchronous, and absence queries to match when the outcome should exist. [Testing Library: About Queries](https://testing-library.com/docs/queries/about/)
+
+## Test sensitivity and boundaries
+
+7. **Inspect fault-sensitivity evidence.** Look for a regression test shown to fail on the original faulty behavior and pass with the fix. Check that the failure concerns the intended assertion rather than incompatible setup. If evidence is absent, recommend that the author produce it when feasible. Alternatively recommend a narrow fault experiment, such as removing a guard, as future proof; do not edit code to perform it during this review. Mutation results can expose weak assertions, but equivalent or irrelevant mutants require judgment; a score is not a correctness certificate. [Google Testing Blog: Mutation Testing](https://testing.googleblog.com/2021/04/mutation-testing.html)
+
+8. **Validate the real boundary required by the claim.** Database locking, constraints, isolation, migrations, and query semantics need evidence from the project's required database engine. A fake repository can test orchestration but cannot establish those guarantees. Provider serialization and error translation need adapter or contract evidence; an actual approved sandbox may be required for provider behavior. Never silently substitute infrastructure forbidden by the project. Identify the omitted guarantee if the environment is unavailable. [Software Engineering at Google: Test Doubles](https://abseil.io/resources/swe-book/html/ch13.html)
+
+9. **Inspect concurrency coordination.** Verify separate sessions or workers represent independent actors where required. Check that barriers, events, or observable state make the contested operation overlap, and that assertions inspect the winner, rejection, and durable state after both finish. Look for bounded waits and propagated worker errors. Recommend the missing synchronization point explicitly. A pair of sequential calls does not prove a race is safe; arbitrary sleeps do not establish the required ordering. [Google Testing Blog: Test Flakiness, Part II](https://testing.googleblog.com/2021/03/test-flakiness-one-of-main-challenges.html)
+
+10. **Audit nondeterminism and isolation.** Inspect clock, timezone, random input, iteration order, network, shared files, ports, and database cleanup. Check dependency controls and recorded seeds for generated failures. Inspect independent-run evidence and identify missing order-dependence checks for QA when source or results suggest that risk. Retries can hide faults and should not be the only remediation. Check whether asynchronous assertions wait for the relevant condition with a deadline instead of elapsed time alone. [Google Testing Blog: Test Flakiness, Part II](https://testing.googleblog.com/2021/03/test-flakiness-one-of-main-challenges.html)
+
+## Review changes to the evidence itself
+
+11. **Inspect deleted tests, snapshots, and weaker assertions.** Compare old and new guarantees whenever a test disappears, becomes skipped, broadens its expected values, or updates a snapshot. A snapshot can protect a deliberate rendered or serialized contract, but accepting a new baseline is not independent confirmation that it is correct. Check that replacements for brittle structure checks preserve useful behavior coverage. Require a concrete reason for removed protection, not merely a green suite. [Google Testing Blog: Change-Detector Tests](https://testing.googleblog.com/2015/01/testing-on-toilet-change-detector-tests.html)
+
+12. **Make recommendations and gates match the evidence.** Propose the smallest concrete improvement: expose a fixture parameter, inject a clock, move a provider call behind its existing adapter, or add an assertion on committed state. State what behavior must remain unchanged and which integration check protects the seam. Assess supplied required-gate and targeted-check evidence; specify missing runs for QA. Report evidence provenance, commands, results, skipped coverage and environment limits accurately; test count and coverage percentage alone do not establish quality. [Software Engineering at Google: Testing Overview](https://abseil.io/resources/swe-book/html/ch11.html)

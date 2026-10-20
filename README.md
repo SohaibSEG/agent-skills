@@ -83,7 +83,7 @@ These are personal, host-level preferences; they do not modify any project repos
 
 ## Engineering review
 
-The complete review-only package is [engineering-review](skills/engineering-review/SKILL.md), formerly `review-cookbook`. Install the parent folder; all eight reviewers and their references are included:
+The complete review-only package is [engineering-review](skills/engineering-review/SKILL.md), formerly `review-cookbook`. Install the parent folder; all specialist reviewers and their references are included:
 
 ```bash
 npx skills@latest add SohaibSEG/agent-skills --skill engineering-review --global --agent codex --agent claude-code
@@ -96,13 +96,18 @@ Invoke `$engineering-review review this PR` in Codex or `/engineering-review rev
 | [Problem framing](skills/engineering-review/reviewers/problem-framing-review/SKILL.md) | Check the underlying problem, rule ownership and proposed mechanism; reframe only with evidence. |
 | [System design](skills/engineering-review/reviewers/system-design-review/SKILL.md) | Inspect models, identity, lifecycle, history, consistency and scale. |
 | [Code design](skills/engineering-review/reviewers/code-design-review/SKILL.md) | Inspect contracts, dependencies, control flow, reuse and refactoring opportunities. |
-| [Backend, data and security](skills/engineering-review/reviewers/backend-data-security-review/SKILL.md) | Trace authorization, database integrity, migrations, audit, concurrency and effects. |
-| [Frontend and UX](skills/engineering-review/reviewers/frontend-ux-review/SKILL.md) | Review frontend state, user journeys, established visual patterns and accessibility. |
+| [Backend, data and security](skills/engineering-review/reviewers/backend-data-security-review/SKILL.md) | Trace use-case authorization, orchestration, audit, concurrency and external effects. |
+| [Database](skills/engineering-review/reviewers/database-review/SKILL.md) | Inspect normalization, integrity, query/index efficiency, growth, concurrency and migration chains. |
+| [Frontend engineering](skills/engineering-review/reviewers/frontend-engineering-review/SKILL.md) | Trace state, API contracts, async behavior, component boundaries and browser security. |
+| [User journey](skills/engineering-review/reviewers/user-journey-review/SKILL.md) | Inspect task discovery, decisions, recovery, handoffs and durable completion. |
+| [UI/UX and accessibility](skills/engineering-review/reviewers/ui-ux-review/SKILL.md) | Assess rendered patterns, responsive states and accessible interaction using supplied evidence. |
 | [Test quality](skills/engineering-review/reviewers/test-quality-review/SKILL.md) | Assess test oracles, assertions, production paths and submitted evidence without running tests. |
 | [Finding verification](skills/engineering-review/reviewers/review-finding-verification/SKILL.md) | Accept, narrow or reject candidate findings using source and counterevidence. |
 | [Review coverage](skills/engineering-review/reviewers/review-coverage-audit/SKILL.md) | Independently inspect omitted paths and integration seams. |
 
-`SKILL.md` owns the workflow, `references/review-contract.md` owns shared policy, and `reviewers/<role>/SKILL.md` selects only its relevant guidance. Source guides and primary-source research remain in the same folder. The [worked examples](skills/engineering-review/references/worked-examples.md) illustrate common anti-patterns with supported failure cases, correction boundaries and legitimate exceptions. They are selected by relevance rather than loaded as a universal checklist. No child registration or additional skill installation is needed. Independent agents are used where available and warranted; role names do not mandate eight agents or any work quota.
+`SKILL.md` owns the workflow, `references/review-contract.md` owns shared policy, and `reviewers/<role>/SKILL.md` contains its substantive review procedure and primary-source references. Shared investigation, coordination, evidence and verification methods remain under `references/`. The [worked examples](skills/engineering-review/references/worked-examples.md) illustrate common anti-patterns with supported failure cases, correction boundaries and legitimate exceptions. They are selected by relevance rather than loaded as a universal checklist. No child registration or additional skill installation is needed. Independent agents are used where available and warranted; role names do not mandate a fixed number of agents or any work quota.
+
+Applicable reviewers load their dedicated skill and applicable procedure sections, record inspected claims and evidence gaps, and assess evidence returned through the structured QA handoff. A parent-only invocation or completed role label does not establish specialist coverage.
 
 QA remains the separate, explicitly invoked `pr-review-qa` process. Installing or invoking Engineering Review does not invoke QA or grant infrastructure, test execution or implementation authority.
 

@@ -30,7 +30,7 @@ Question, source entry points, responsibility and owned/shared seams: [...]
 Raw requirements/discussion, source and existing evidence: [...]
 Provisional inventory, if any (discovery only; omit for blind audit): [...]
 External artifact destination: [...]
-Return source-backed paths, candidates (including discarded/unresolved with reasons), counterevidence and gaps.
+Return role/guide sections actually read, source-backed paths, candidates (including discarded/unresolved with reasons), counterevidence, QA evidence requests and gaps.
 ```
 
 The [parent routing table](../SKILL.md) supplies role paths. Reviewers read the contract and their role, then only the guide sections needed for the assignment; they need not reload the full parent workflow or all references. Prior findings and expected answers are excluded from initial discovery. Share new source facts for integration afterward, retaining conflicting interpretations.

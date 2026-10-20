@@ -11,4 +11,4 @@ Use before gate closure to inspect completeness, not test coverage percentages. 
 
 Apply **Audit omissions independently** in [Verification](../../references/verification.md). [Inspection](../../references/investigation.md) defines source tracing; use only the specialist guide needed for a newly found path.
 
-Record the independent inventory before reading discovery reports. Reconcile afterward and return newly inspected paths, new candidates, unsupported coverage claims and remaining gaps. Send new candidates to finding verification. If conclusions were already visible, disclose the lost independence.
+Record the independent inventory before reading discovery reports. Afterward, compare applicable specialist assignments with the recorded guide reads, inspected paths and evidence requests; a completed role label alone cannot close coverage. Reconcile afterward and return newly inspected paths, new candidates, unsupported coverage claims and remaining gaps. Send new candidates to finding verification. If conclusions were already visible, disclose the lost independence.
