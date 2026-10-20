@@ -75,4 +75,4 @@ For separate QA, list unverified scenarios, required real boundaries, expected o
 
 ## Maintainer material
 
-[Review-system research](references/review-system-research.md) records provenance; [Evaluation](references/evaluation.md) explains how to test the skill. These are not routine review inputs. Specialist guides retain their primary-source references and this package's own adaptations.
+[Review-system research](references/review-system-research.md) records provenance; [Evaluation](references/evaluation.md) explains how to test the skill. These are not routine review inputs. Specialist skills retain their primary-source references and this package's own adaptations.
